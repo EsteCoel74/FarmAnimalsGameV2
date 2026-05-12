@@ -15,14 +15,34 @@ using System.Windows.Shapes;
 
 namespace FarmAnimalsGameV2.Views
 {
-    /// <summary>
-    /// Logique d'interaction pour DifficultyPage.xaml
-    /// </summary>
     public partial class DifficultyPage : UserControl
     {
+        public event RoutedEventHandler? BackRequested;
+        public event Action<MysteryAnimalPage.Difficulty>? DifficultySelected;
+
         public DifficultyPage()
         {
             InitializeComponent();
+        }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            BackRequested?.Invoke(this, e);
+        }
+
+        private void EasyButton_Click(object sender, RoutedEventArgs e)
+        {
+            DifficultySelected?.Invoke(MysteryAnimalPage.Difficulty.Facile);
+        }
+
+        private void MediumButton_Click(object sender, RoutedEventArgs e)
+        {
+            DifficultySelected?.Invoke(MysteryAnimalPage.Difficulty.Moyen);
+        }
+
+        private void HardButton_Click(object sender, RoutedEventArgs e)
+        {
+            DifficultySelected?.Invoke(MysteryAnimalPage.Difficulty.Difficile);
         }
     }
 }

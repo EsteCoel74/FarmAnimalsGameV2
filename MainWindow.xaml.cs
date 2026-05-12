@@ -11,11 +11,10 @@ using System.Windows.Shapes;
 
 namespace FarmAnimalsGameV2
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
+        private bool _isMemoryMode;
+
         public MainWindow()
         {
             InitializeComponent();
