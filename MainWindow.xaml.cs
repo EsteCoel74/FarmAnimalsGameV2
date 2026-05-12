@@ -8,6 +8,8 @@ namespace FarmAnimalsGameV2
     /// </summary>
     public partial class MainWindow : Window
     {
+        private bool _isMemoryMode;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -15,11 +17,13 @@ namespace FarmAnimalsGameV2
 
         private void AnimalMystereButton_Click(object sender, RoutedEventArgs e)
         {
+            _isMemoryMode = false;
             ShowDifficultyPage();
         }
 
         private void MemoryButton_Click(object sender, RoutedEventArgs e)
         {
+            _isMemoryMode = true;
             ShowDifficultyPage();
         }
 
@@ -27,6 +31,7 @@ namespace FarmAnimalsGameV2
         {
             var difficultyPage = new DifficultyPage();
             difficultyPage.BackRequested += DifficultyPage_BackRequested;
+            difficultyPage.DifficultySelected += DifficultyPage_DifficultySelected;
             PageHost.Content = difficultyPage;
             MainMenu.Visibility = Visibility.Collapsed;
         }
@@ -35,6 +40,17 @@ namespace FarmAnimalsGameV2
         {
             PageHost.Content = null;
             MainMenu.Visibility = Visibility.Visible;
+        }
+
+        private void DifficultyPage_DifficultySelected(object? sender, GameDifficultySelectedEventArgs e)
+        {
+            if (_isMemoryMode)
+            {
+                PageHost.Content = new MemoryPage(e.Difficulty);
+                return;
+            }
+
+            PageHost.Content = new MysteryAnimalPage();
         }
     }
 }
