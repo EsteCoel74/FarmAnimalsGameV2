@@ -15,7 +15,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="240">
-            <Button Content="Animal Mystère" Background="#FF7FB2FF" Foreground="White" Height="48" FontSize="18" Margin="0,0,0,16">
+            <Button Content="Animal Mystère" Background="#FF7FB2FF" Foreground="White" Height="48" FontSize="18" Margin="0,0,0,16" Click="Button_Click">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
                         <Border Background="{TemplateBinding Background}" CornerRadius="12">
