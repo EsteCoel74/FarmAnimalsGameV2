@@ -20,9 +20,16 @@ namespace FarmAnimalsGameV2.Views
     /// </summary>
     public partial class DifficultyPage : UserControl
     {
+        public event RoutedEventHandler? BackRequested;
+
         public DifficultyPage()
         {
             InitializeComponent();
+        }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            BackRequested?.Invoke(this, e);
         }
     }
 }
