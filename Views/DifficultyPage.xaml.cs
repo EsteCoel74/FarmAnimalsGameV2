@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using FarmAnimalsGameV2;
 
 namespace FarmAnimalsGameV2.Views
 {
@@ -20,9 +21,32 @@ namespace FarmAnimalsGameV2.Views
     /// </summary>
     public partial class DifficultyPage : UserControl
     {
+        public event RoutedEventHandler? BackRequested;
+        public event EventHandler<GameDifficultySelectedEventArgs>? DifficultySelected;
+
         public DifficultyPage()
         {
             InitializeComponent();
+        }
+        private void EasyButton_Click(object sender, RoutedEventArgs e)
+        {
+            OnDifficultySelected(GameDifficulty.Easy);
+        }
+        private void MediumButton_Click(object sender, RoutedEventArgs e)
+        {
+            OnDifficultySelected(GameDifficulty.Medium);
+        }
+        private void HardButton_Click(object sender, RoutedEventArgs e)
+        {
+            OnDifficultySelected(GameDifficulty.Hard);
+        }
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            BackRequested?.Invoke(this, e);
+        }
+        private void OnDifficultySelected(GameDifficulty difficulty)
+        {
+            DifficultySelected?.Invoke(this, new GameDifficultySelectedEventArgs(difficulty));
         }
     }
 }

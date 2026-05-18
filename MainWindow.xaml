@@ -5,7 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FarmAnimalsGameV2"
         mc:Ignorable="d"
-        Title="MainWindow" Height="750" Width="800">
+        Title="MainWindow" Height="545" Width="730">
+    <Window.Resources>
+        <Style x:Key="RoundedButtonStyle" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="12">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.Background>
             <ImageBrush ImageSource="Assets/Farm.png" Stretch="UniformToFill" />
@@ -14,35 +27,13 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="240">
-            <Button Content="Animal Mystère" Background="#FF7FB2FF" Foreground="White" Height="48" FontSize="18" Margin="0,0,0,16">
-                <Button.Template>
-                    <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}" CornerRadius="12">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        </Border>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
-            <Button Content="Memory" Background="#FF84D37E" Foreground="White" Height="48" FontSize="18" Margin="0,0,0,16">
-                <Button.Template>
-                    <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}" CornerRadius="12">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        </Border>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
-            <Button Content="Scores" Background="#FFFFB74D" Foreground="White" Height="48" FontSize="18">
-                <Button.Template>
-                    <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}" CornerRadius="12">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        </Border>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
-        </StackPanel>
+        <Grid Grid.Row="0">
+            <ContentControl x:Name="PageHost" />
+            <StackPanel x:Name="MainMenu" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300">
+                <Button Content="Animal Mystère" Background="#FF7FB2FF" Foreground="White" Height="64" FontSize="20" Margin="0,0,0,20" Click="AnimalMystereButton_Click" Style="{StaticResource RoundedButtonStyle}" />
+                <Button Content="Memory" Background="#FF84D37E" Foreground="White" Height="64" FontSize="20" Click="MemoryButton_Click" Style="{StaticResource RoundedButtonStyle}" />
+            </StackPanel>
+        </Grid>
         <Border Grid.Row="1" Background="#AA000000" Padding="12" HorizontalAlignment="Stretch">
             <TextBlock Text="© Farm Animals Game" Foreground="White" HorizontalAlignment="Center" />
         </Border>
