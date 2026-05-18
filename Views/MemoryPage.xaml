@@ -6,6 +6,109 @@
              xmlns:local="clr-namespace:FarmAnimalsGameV2.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style x:Key="MemoryCardButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#FFF8EBCB" />
+            <Setter Property="BorderBrush" Value="#FFB88A34" />
+            <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="Padding" Value="8" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="VerticalContentAlignment" Value="Stretch" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="12">
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="12" ShadowDepth="2" Opacity="0.25" />
+                            </Border.Effect>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Border Background="#FFE8C36E" CornerRadius="8" Margin="0,0,0,6" Height="18" />
+                                <ContentPresenter Grid.Row="1"
+                                                  HorizontalAlignment="Stretch"
+                                                  VerticalAlignment="Stretch" />
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="TimerText"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Top"
+                   Margin="0,6,24,0"
+                   FontSize="28"
+                   Foreground="#FF1B1B1B"
+                   FontWeight="SemiBold" />
+        <ItemsControl Grid.Row="1"
+                      ItemsSource="{Binding Cards}"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Rows="2" Columns="5" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Button Width="130"
+                            Height="170"
+                            Margin="8"
+                            FontSize="18"
+                            FontWeight="SemiBold"
+                            Click="CardButton_Click"
+                            Style="{StaticResource MemoryCardButtonStyle}">
+                        <Button.Content>
+                            <Grid>
+                                <Grid x:Name="CardFront" Visibility="Collapsed">
+                                    <Grid.Background>
+                                        <ImageBrush ImageSource="{Binding ImagePath}" Stretch="UniformToFill" />
+                                    </Grid.Background>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <Border Background="#CCF8EBCB" Padding="6" CornerRadius="6" Margin="6">
+                                        <TextBlock Text="{Binding Label}"
+                                                   FontSize="14"
+                                                   FontWeight="SemiBold"
+                                                   Foreground="#FF3B2E1E"
+                                                   HorizontalAlignment="Center" />
+                                    </Border>
+                                </Grid>
+                                <TextBlock x:Name="CardBack"
+                                           Text="?"
+                                           FontSize="36"
+                                           Foreground="#FF3B2E1E"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center" />
+                            </Grid>
+                        </Button.Content>
+                    </Button>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding IsRevealed}" Value="True">
+                            <Setter TargetName="CardFront" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="CardBack" Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsMatched}" Value="True">
+                            <Setter TargetName="CardFront" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="CardBack" Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </Grid>
 </UserControl>

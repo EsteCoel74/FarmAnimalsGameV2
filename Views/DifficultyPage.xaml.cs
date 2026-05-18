@@ -30,17 +30,17 @@ namespace FarmAnimalsGameV2.Views
             BackRequested?.Invoke(this, e);
         }
 
-        private void EasyButton_Click(object sender, RoutedEventArgs e)
+        private void FacileButton_Click(object sender, RoutedEventArgs e)
         {
             DifficultySelected?.Invoke(MysteryAnimalPage.Difficulty.Facile);
         }
 
-        private void MediumButton_Click(object sender, RoutedEventArgs e)
+        private void MoyenButton_Click(object sender, RoutedEventArgs e)
         {
             DifficultySelected?.Invoke(MysteryAnimalPage.Difficulty.Moyen);
         }
 
-        private void HardButton_Click(object sender, RoutedEventArgs e)
+        private void DifficileButton_Click(object sender, RoutedEventArgs e)
         {
             DifficultySelected?.Invoke(MysteryAnimalPage.Difficulty.Difficile);
         }
