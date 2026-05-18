@@ -6,19 +6,45 @@
              xmlns:local="clr-namespace:FarmAnimalsGameV2.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style x:Key="DifficultyButtonStyle" TargetType="Button">
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="12">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
     <Grid>
-        <Grid.Background>
-            <ImageBrush ImageSource="/Assets/Farm.png" Stretch="UniformToFill" />
-        </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="240">
-            <Button Content="Facile" Background="#FF7FB2FF" Foreground="White" Height="48" FontSize="18" Margin="0,0,0,16" Click="EasyButton_Click" />
-            <Button Content="Moyen" Background="#FF84D37E" Foreground="White" Height="48" FontSize="18" Margin="0,0,0,16" Click="MediumButton_Click" />
-            <Button Content="Difficile" Background="#FFFFB74D" Foreground="White" Height="48" FontSize="18" Margin="0,0,0,16" Click="HardButton_Click" />
-            <Button Content="Retour" Background="#FFB0BEC5" Foreground="White" Height="44" FontSize="16" Click="BackButton_Click" />
+            <Button Background="#FF7FB2FF" Foreground="White" Height="58" FontSize="18" Margin="0,0,0,16" Click="EasyButton_Click" Style="{StaticResource DifficultyButtonStyle}">
+                <StackPanel>
+                    <TextBlock Text="Facile" HorizontalAlignment="Center" />
+                    <TextBlock Text="Essais max : 20" FontSize="12" HorizontalAlignment="Center" />
+                </StackPanel>
+            </Button>
+            <Button Background="#FF84D37E" Foreground="White" Height="58" FontSize="18" Margin="0,0,0,16" Click="MediumButton_Click" Style="{StaticResource DifficultyButtonStyle}">
+                <StackPanel>
+                    <TextBlock Text="Moyen" HorizontalAlignment="Center" />
+                    <TextBlock Text="Essais max : 15" FontSize="12" HorizontalAlignment="Center" />
+                </StackPanel>
+            </Button>
+            <Button Background="#FFFFB74D" Foreground="White" Height="58" FontSize="18" Margin="0,0,0,16" Click="HardButton_Click" Style="{StaticResource DifficultyButtonStyle}">
+                <StackPanel>
+                    <TextBlock Text="Difficile" HorizontalAlignment="Center" />
+                    <TextBlock Text="Essais max : 10" FontSize="12" HorizontalAlignment="Center" />
+                </StackPanel>
+            </Button>
+            <Button Content="Retour" Background="#FFB0BEC5" Foreground="White" Height="44" FontSize="16" Click="BackButton_Click" Style="{StaticResource DifficultyButtonStyle}" />
         </StackPanel>
     </Grid>
 </UserControl>

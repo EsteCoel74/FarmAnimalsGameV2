@@ -39,6 +39,22 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style x:Key="SummaryButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#FF7FB2FF" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="10" Padding="8">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -52,7 +68,8 @@
                    FontSize="28"
                    Foreground="#FF1B1B1B"
                    FontWeight="SemiBold" />
-        <ItemsControl Grid.Row="1"
+        <ItemsControl x:Name="CardsBoard"
+                      Grid.Row="1"
                       ItemsSource="{Binding Cards}"
                       HorizontalAlignment="Center"
                       VerticalAlignment="Center">
@@ -106,9 +123,75 @@
                             <Setter TargetName="CardFront" Property="Visibility" Value="Visible" />
                             <Setter TargetName="CardBack" Property="Visibility" Value="Collapsed" />
                         </DataTrigger>
+                        <DataTrigger Binding="{Binding IsCleared}" Value="True">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
                     </DataTemplate.Triggers>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
+        <Canvas x:Name="StarCanvas"
+                Grid.RowSpan="2"
+                IsHitTestVisible="False"
+                Panel.ZIndex="5"
+                ClipToBounds="True" />
+        <Border x:Name="SummaryPanel"
+                Grid.RowSpan="2"
+                Background="#B3000000"
+                Visibility="Collapsed">
+            <Border HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Background="#FFFDF6E3"
+                    Padding="28"
+                    Width="360"
+                    CornerRadius="16">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="18" ShadowDepth="4" Opacity="0.35" />
+                </Border.Effect>
+                <StackPanel>
+                    <TextBlock x:Name="SummaryTitleText"
+                               Text="Bravo !"
+                               FontSize="24"
+                               FontWeight="SemiBold"
+                               Foreground="#FF3B2E1E"
+                               HorizontalAlignment="Center"
+                               Margin="0,0,0,4" />
+                    <TextBlock x:Name="SummarySubtitleText"
+                               Text="Toutes les paires sont trouvées"
+                               FontSize="14"
+                               Foreground="#FF6D4C1F"
+                               HorizontalAlignment="Center"
+                               Margin="0,0,0,16" />
+                    <Border Background="#FFF3E2B9" CornerRadius="12" Padding="12" Margin="0,0,0,16">
+                        <StackPanel>
+                            <TextBlock x:Name="AttemptsText"
+                                       FontSize="15"
+                                       FontWeight="SemiBold"
+                                       Foreground="#FF3B2E1E"
+                                       Margin="0,0,0,6" />
+                            <TextBlock x:Name="TimeText"
+                                       FontSize="15"
+                                       FontWeight="SemiBold"
+                                       Foreground="#FF3B2E1E" />
+                        </StackPanel>
+                    </Border>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Content="Retour"
+                                Width="120"
+                                Margin="0,0,12,0"
+                                Height="40"
+                                Background="#FFB0BEC5"
+                                Style="{StaticResource SummaryButtonStyle}"
+                                Click="BackButton_Click" />
+                        <Button Content="Recommencer"
+                                Width="140"
+                                Height="40"
+                                Background="#FF84D37E"
+                                Style="{StaticResource SummaryButtonStyle}"
+                                Click="RestartButton_Click" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Border>
     </Grid>
 </UserControl>

@@ -28,27 +28,22 @@ namespace FarmAnimalsGameV2.Views
         {
             InitializeComponent();
         }
-
         private void EasyButton_Click(object sender, RoutedEventArgs e)
         {
             OnDifficultySelected(GameDifficulty.Easy);
         }
-
         private void MediumButton_Click(object sender, RoutedEventArgs e)
         {
             OnDifficultySelected(GameDifficulty.Medium);
         }
-
         private void HardButton_Click(object sender, RoutedEventArgs e)
         {
             OnDifficultySelected(GameDifficulty.Hard);
         }
-
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             BackRequested?.Invoke(this, e);
         }
-
         private void OnDifficultySelected(GameDifficulty difficulty)
         {
             DifficultySelected?.Invoke(this, new GameDifficultySelectedEventArgs(difficulty));

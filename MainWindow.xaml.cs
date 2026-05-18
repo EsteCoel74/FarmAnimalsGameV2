@@ -38,19 +38,31 @@ namespace FarmAnimalsGameV2
 
         private void DifficultyPage_BackRequested(object? sender, RoutedEventArgs e)
         {
-            PageHost.Content = null;
-            MainMenu.Visibility = Visibility.Visible;
+            ShowMainMenu();
         }
 
         private void DifficultyPage_DifficultySelected(object? sender, GameDifficultySelectedEventArgs e)
         {
             if (_isMemoryMode)
             {
-                PageHost.Content = new MemoryPage(e.Difficulty);
+                var memoryPage = new MemoryPage(e.Difficulty);
+                memoryPage.BackRequested += MemoryPage_BackRequested;
+                PageHost.Content = memoryPage;
                 return;
             }
 
             PageHost.Content = new MysteryAnimalPage();
+        }
+
+        private void MemoryPage_BackRequested(object? sender, RoutedEventArgs e)
+        {
+            ShowMainMenu();
+        }
+
+        private void ShowMainMenu()
+        {
+            PageHost.Content = null;
+            MainMenu.Visibility = Visibility.Visible;
         }
     }
 }
