@@ -24,5 +24,19 @@ namespace FarmAnimalsGameV2.Views
         {
             InitializeComponent();
         }
+        Dictionary<string, string> cartes = new Dictionary<string, string>
+{
+    { "6FDB2B3E", "Vache" },
+    { "32FE281D", "Mouton" },
+    { "42EA691D", "Chèvre" },
+    // à compléter quand tu auras scanné les 7 autres cartes
+    // { "????????", "Cochon" },
+    // { "????????", "Cheval" },
+    // { "????????", "Âne" },
+    // { "????????", "Lapin" },
+    // { "????????", "Oie" },
+    // { "????????", "Poule" },
+    // { "????????", "Coq" },
+};
     }
 }
