@@ -1,6 +1,6 @@
 using System;
 
-namespace FarmAnimalsGameV2
+namespace FarmAnimalsGameV2.Services
 {
     public enum GameDifficulty
     {
