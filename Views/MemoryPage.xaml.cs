@@ -377,7 +377,7 @@ namespace FarmAnimalsGameV2.Views
                 star.Life -= 1;
                 if (star.IsFalling)
                 {
-                    star.Velocity = new Vector(star.Velocity.X, star.Velocity.Y + 0.35);
+                    star.Velocity = new Vector(star.Velocity.X, star.Velocity.Y + 1.2);
                 }
                 else
                 {
@@ -547,6 +547,7 @@ namespace FarmAnimalsGameV2.Views
                     Shape = CreateFireworkParticle(hue),
                     IsFalling = false
                 };
+                particle.InitialLife = particle.Life;
                 _activeStars.Add(particle);
                 _starCanvas.Children.Add(particle.Shape);
                 Canvas.SetLeft(particle.Shape, centerX);
@@ -622,13 +623,25 @@ namespace FarmAnimalsGameV2.Views
             return Color.FromRgb(r, g, b);
         }
 
+        private static Color LerpColor(Color start, Color end, double t)
+        {
+            t = Math.Max(0, Math.Min(1, t));
+            var r = (byte)Math.Round(start.R + (end.R - start.R) * t);
+            var g = (byte)Math.Round(start.G + (end.G - start.G) * t);
+            var b = (byte)Math.Round(start.B + (end.B - start.B) * t);
+            return Color.FromRgb(r, g, b);
+        }
+
         private sealed class StarBurst
         {
             public Vector Position { get; set; }
             public Vector Velocity { get; set; }
             public double Life { get; set; }
+            public double InitialLife { get; set; }
             public Shape Shape { get; set; } = null!;
+            public SolidColorBrush? FillBrush { get; set; }
             public bool IsFalling { get; set; }
+            public bool FadeToGray { get; set; }
         }
 
         public sealed class MemoryCard : INotifyPropertyChanged
@@ -647,7 +660,7 @@ namespace FarmAnimalsGameV2.Views
             public string Label { get; }
             public int PairId { get; }
             public string ImageFileName { get; }
-            public string ImagePath => $"pack://application:,,,/Assets/{ImageFileName}.png";
+            public string ImagePath => $"pack://application:,,,/Assets/Memory/{ImageFileName}.png";
 
             public bool IsRevealed
             {
