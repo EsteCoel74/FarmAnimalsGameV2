@@ -18,4 +18,10 @@
     <Resource Include="Assets\Memory\*.png" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="Assets\La Valse de la Grange.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

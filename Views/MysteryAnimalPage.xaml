@@ -149,7 +149,6 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-
         <!-- ══ ROW 0 — HEADER SOLEIL ══ -->
         <Border Grid.Row="0"
                 Background="{StaticResource Sunny}"
