@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="545" Width="730">
     <Window.Resources>
+        <ImageBrush x:Key="FarmBackground" ImageSource="Assets/Farm.png" Stretch="UniformToFill" />
         <Style x:Key="RoundedButtonStyle" TargetType="Button">
             <Setter Property="Template">
                 <Setter.Value>
@@ -19,10 +20,7 @@
             </Setter>
         </Style>
     </Window.Resources>
-    <Grid>
-        <Grid.Background>
-            <ImageBrush ImageSource="Assets/Farm.png" Stretch="UniformToFill" />
-        </Grid.Background>
+    <Grid x:Name="RootGrid" Background="{StaticResource FarmBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />

@@ -352,6 +352,7 @@ namespace FarmAnimalsGameV2.Views
                     Life = 40 + _random.Next(10),
                     Shape = CreateStarShape()
                 };
+                star.InitialLife = star.Life;
                 _activeStars.Add(star);
                 _starCanvas.Children.Add(star.Shape);
                 Canvas.SetLeft(star.Shape, startX);
@@ -395,6 +396,12 @@ namespace FarmAnimalsGameV2.Views
                 var opacityBase = star.Life / 40.0;
                 star.Shape.Opacity = Math.Max(0, Math.Min(1, opacityBase));
 
+                if (star.FadeToGray && star.FillBrush is not null && star.InitialLife > 0)
+                {
+                    var t = 1 - Math.Max(0, Math.Min(1, star.Life / star.InitialLife));
+                    star.FillBrush.Color = LerpColor(Color.FromRgb(255, 214, 64), Color.FromRgb(160, 160, 160), t);
+                }
+
                 var isOffscreen = star.Position.Y > _starCanvas.ActualHeight + 40;
                 if (star.Life <= 0 || isOffscreen)
                 {
@@ -411,6 +418,11 @@ namespace FarmAnimalsGameV2.Views
 
         private Shape CreateStarShape(Color color)
         {
+            return CreateStarShape(color, out _);
+        }
+
+        private Shape CreateStarShape(Color color, out SolidColorBrush brush)
+        {
             var size = 14 + _random.Next(6);
             var points = new PointCollection
             {
@@ -426,14 +438,24 @@ namespace FarmAnimalsGameV2.Views
                 new Point(0.38, 0.38)
             };
 
+            brush = new SolidColorBrush(color);
             return new Polygon
             {
                 Points = points,
-                Fill = new SolidColorBrush(color),
+                Fill = brush,
                 Width = size,
                 Height = size,
                 RenderTransform = new ScaleTransform(size, size)
             };
+        }
+
+        private static Color LerpColor(Color start, Color end, double t)
+        {
+            t = Math.Max(0, Math.Min(1, t));
+            var r = (byte)Math.Round(start.R + (end.R - start.R) * t);
+            var g = (byte)Math.Round(start.G + (end.G - start.G) * t);
+            var b = (byte)Math.Round(start.B + (end.B - start.B) * t);
+            return Color.FromRgb(r, g, b);
         }
 
         private void StartFireworks()
@@ -625,15 +647,6 @@ namespace FarmAnimalsGameV2.Views
             var r = (byte)Math.Round((rPrime + m) * 255);
             var g = (byte)Math.Round((gPrime + m) * 255);
             var b = (byte)Math.Round((bPrime + m) * 255);
-            return Color.FromRgb(r, g, b);
-        }
-
-        private static Color LerpColor(Color start, Color end, double t)
-        {
-            t = Math.Max(0, Math.Min(1, t));
-            var r = (byte)Math.Round(start.R + (end.R - start.R) * t);
-            var g = (byte)Math.Round(start.G + (end.G - start.G) * t);
-            var b = (byte)Math.Round(start.B + (end.B - start.B) * t);
             return Color.FromRgb(r, g, b);
         }
 
