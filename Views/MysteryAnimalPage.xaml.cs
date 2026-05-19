@@ -58,16 +58,16 @@ namespace FarmAnimalsGameV2.Views
 
         private readonly List<AnimalCard> _catalog = new List<AnimalCard>
         {
-            new AnimalCard { RfidTag="04:AA:01:01", Name="Vache",    Emoji="🐄", Hint="Donne du lait chaque matin"        },
-            new AnimalCard { RfidTag="04:AA:01:02", Name="Cochon",   Emoji="🐷", Hint="Se roule dans la boue"             },
-            new AnimalCard { RfidTag="04:AA:01:03", Name="Poulet",   Emoji="🐔", Hint="Pond des œufs tous les jours"      },
-            new AnimalCard { RfidTag="04:AA:01:04", Name="Mouton",   Emoji="🐑", Hint="Sa laine tient chaud l'hiver"      },
-            new AnimalCard { RfidTag="04:AA:01:05", Name="Cheval",   Emoji="🐴", Hint="Court très vite dans les prés"     },
-            new AnimalCard { RfidTag="04:AA:01:06", Name="Âne",      Emoji="🫏", Hint="Porte les lourdes charges"         },
-            new AnimalCard { RfidTag="04:AA:01:07", Name="Canard",   Emoji="🦆", Hint="Cancane près de la mare"           },
-            new AnimalCard { RfidTag="04:AA:01:08", Name="Chèvre",   Emoji="🐐", Hint="Grimpe partout sans effort"        },
-            new AnimalCard { RfidTag="04:AA:01:09", Name="Lapin",    Emoji="🐰", Hint="Saute et mange des carottes"       },
-            new AnimalCard { RfidTag="04:AA:01:10", Name="Oie",      Emoji="🪿", Hint="Garde la ferme mieux qu'un chien" },
+            new AnimalCard { RfidTag="6FDB2B3E", Name="Vache",    Emoji="🐄", Hint="Donne du lait chaque matin"        },
+            new AnimalCard { RfidTag="32FE281D", Name="Cochon",   Emoji="🐷", Hint="Se roule dans la boue"             },
+            new AnimalCard { RfidTag="42EA691D", Name="Poulet",   Emoji="🐔", Hint="Pond des œufs tous les jours"      },
+            new AnimalCard { RfidTag="6EAD4A74", Name="Mouton",   Emoji="🐑", Hint="Sa laine tient chaud l'hiver"      },
+            new AnimalCard { RfidTag="EE455374", Name="Cheval",   Emoji="🐴", Hint="Court très vite dans les prés"     },
+            new AnimalCard { RfidTag="3E5D4A74", Name="Âne",      Emoji="🫏", Hint="Porte les lourdes charges"         },
+            new AnimalCard { RfidTag="04444A7AFB1990", Name="Canard",   Emoji="🦆", Hint="Cancane près de la mare"           },
+            new AnimalCard { RfidTag="0432486AD11990", Name="Chèvre",   Emoji="🐐", Hint="Grimpe partout sans effort"        },
+            new AnimalCard { RfidTag="041213A28E1190", Name="Lapin",    Emoji="🐰", Hint="Saute et mange des carottes"       },
+            new AnimalCard { RfidTag="042D33D2FC1090", Name="Oie",      Emoji="🪿", Hint="Garde la ferme mieux qu'un chien" },
         };
 
         // ══════════════════════════════════════════════════════
