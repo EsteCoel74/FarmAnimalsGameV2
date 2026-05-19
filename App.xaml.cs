@@ -5,7 +5,7 @@ using System.Windows;
 namespace FarmAnimalsGameV2
 {
     /// <summary>
-    /// Interaction logic for App.xaml
+    /// Point d'entrée de l'application WPF.
     /// </summary>
     public partial class App : Application
     {

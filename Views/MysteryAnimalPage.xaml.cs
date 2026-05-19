@@ -122,6 +122,9 @@ namespace FarmAnimalsGameV2.Views
             GoToWaiting();
         }
 
+        /// <summary>
+        /// Place l'écran en attente de carte RFID.
+        /// </summary>
         private void GoToWaiting()
         {
             _countdownTimer.Stop();
@@ -176,6 +179,9 @@ namespace FarmAnimalsGameV2.Views
             }
         }
 
+        /// <summary>
+        /// Gère la sélection d'une réponse.
+        /// </summary>
         private void Answer_Click(object sender, RoutedEventArgs e)
         {
             _countdownTimer.Stop();
@@ -225,6 +231,9 @@ namespace FarmAnimalsGameV2.Views
             }
         }
 
+        /// <summary>
+        /// Affiche l'écran de fin de partie en victoire.
+        /// </summary>
         private void ShowRoundEnd()
         {
             // Affiche l'écran de fin avec le score final
@@ -234,6 +243,9 @@ namespace FarmAnimalsGameV2.Views
             SetStatus("Partie terminée !");
         }
 
+        /// <summary>
+        /// Met à jour l'affichage du round courant.
+        /// </summary>
         private void UpdateRoundDisplay()
         {
             if (RoundLabel != null)
@@ -251,6 +263,9 @@ namespace FarmAnimalsGameV2.Views
             _countdownTimer.Start();
         }
 
+        /// <summary>
+        /// Décrémente le temps restant et gère le timeout.
+        /// </summary>
         private void CountdownTimer_Tick(object sender, EventArgs e)
         {
             _timeLeft--;
@@ -271,6 +286,9 @@ namespace FarmAnimalsGameV2.Views
                 Delay(1.8, NextRoundOrEnd);
         }
 
+        /// <summary>
+        /// Met à jour la barre et le texte du chrono.
+        /// </summary>
         private void RefreshTimerBar()
         {
             TimerLabel.Text = $"{_timeLeft}s";
@@ -319,17 +337,26 @@ namespace FarmAnimalsGameV2.Views
 
         private Button[] AnswerButtons() => new[] { BtnA, BtnB, BtnC, BtnD };
 
+        /// <summary>
+        /// Désactive les boutons de réponse.
+        /// </summary>
         private void DisableAnswers()
         {
             foreach (var b in AnswerButtons()) b.IsEnabled = false;
         }
 
+        /// <summary>
+        /// Applique une couleur d'arrière-plan et de bordure à un bouton.
+        /// </summary>
         private static void SetButtonColor(Button btn, string bg, string border)
         {
             btn.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(bg));
             btn.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(border));
         }
 
+        /// <summary>
+        /// Affiche le panneau demandé.
+        /// </summary>
         private void ShowPanel(string panel)
         {
             WaitingScreen.Visibility = panel == "waiting" ? Visibility.Visible : Visibility.Collapsed;
@@ -338,6 +365,9 @@ namespace FarmAnimalsGameV2.Views
             WinScreen.Visibility = panel == "win" ? Visibility.Visible : Visibility.Collapsed;
         }
 
+        /// <summary>
+        /// Met à jour l'affichage des vies.
+        /// </summary>
         private void UpdateLivesDisplay()
         {
             int max = LivesForDifficulty();
@@ -347,12 +377,21 @@ namespace FarmAnimalsGameV2.Views
             Heart3.Visibility = (max >= 3 && _lives >= 3) ? Visibility.Visible : Visibility.Collapsed;
         }
 
+        /// <summary>
+        /// Met à jour l'affichage du score.
+        /// </summary>
         private void UpdateScoreDisplay() =>
             ScoreLabel.Text = _score.ToString();
 
+        /// <summary>
+        /// Met à jour le texte de statut.
+        /// </summary>
         private void SetStatus(string msg) =>
             StatusText.Text = msg;
 
+        /// <summary>
+        /// Exécute une action après un délai.
+        /// </summary>
         private void Delay(double seconds, Action action)
         {
             var t = new DispatcherTimer { Interval = TimeSpan.FromSeconds(seconds) };

@@ -75,7 +75,7 @@
                       VerticalAlignment="Center">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <UniformGrid Rows="2" Columns="5" />
+                    <UniformGrid Rows="4" Columns="5" />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>

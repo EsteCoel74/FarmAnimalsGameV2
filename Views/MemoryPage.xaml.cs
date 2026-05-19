@@ -50,6 +50,9 @@ namespace FarmAnimalsGameV2.Views
         {
         }
 
+        /// <summary>
+        /// Initialise la page Memory avec la difficulté choisie.
+        /// </summary>
         public MemoryPage(GameDifficulty difficulty)
         {
             InitializeComponent();
@@ -77,6 +80,9 @@ namespace FarmAnimalsGameV2.Views
             _loseStarsTimer.Tick += LoseStarsTimer_Tick;
         }
 
+        /// <summary>
+        /// Démarre le timer quand la page est chargée.
+        /// </summary>
         private void MemoryPage_Loaded(object sender, RoutedEventArgs e)
         {
             if (!_timer.IsEnabled)
@@ -85,6 +91,9 @@ namespace FarmAnimalsGameV2.Views
             }
         }
 
+        /// <summary>
+        /// Arrête les timers et les animations quand la page est déchargée.
+        /// </summary>
         private void MemoryPage_Unloaded(object sender, RoutedEventArgs e)
         {
             if (_timer.IsEnabled)
@@ -97,6 +106,9 @@ namespace FarmAnimalsGameV2.Views
             CompositionTarget.Rendering -= CompositionTarget_Rendering;
         }
 
+        /// <summary>
+        /// Met à jour le compte à rebours à chaque tick.
+        /// </summary>
         private void Timer_Tick(object? sender, EventArgs e)
         {
             if (_remaining <= TimeSpan.Zero)
@@ -112,11 +124,17 @@ namespace FarmAnimalsGameV2.Views
             UpdateTimerText();
         }
 
+        /// <summary>
+        /// Met à jour l'affichage du chronomètre.
+        /// </summary>
         private void UpdateTimerText()
         {
             TimerText.Text = _remaining.ToString(@"mm\:ss");
         }
 
+        /// <summary>
+        /// Génère et mélange les cartes du memory.
+        /// </summary>
         private void InitializeCards()
         {
             Cards.Clear();
@@ -138,10 +156,9 @@ namespace FarmAnimalsGameV2.Views
                 ("Chat", "Chaton"),
                 ("Buffle", "Bufflon"),
                 ("Pintade", "Pintadeau"),
-                ("Autruche", "Autruchon")
             };
 
-            var selectedPairs = pairs.OrderBy(_ => _random.Next()).Take(5).ToList();
+            var selectedPairs = pairs.OrderBy(_ => _random.Next()).Take(10).ToList();
 
             for (var i = 0; i < selectedPairs.Count; i++)
             {
@@ -158,6 +175,9 @@ namespace FarmAnimalsGameV2.Views
             }
         }
 
+        /// <summary>
+        /// Normalise un libellé pour en faire un nom de fichier d'image.
+        /// </summary>
         private static string NormalizeFileName(string label)
         {
             var normalized = label.Normalize(NormalizationForm.FormD);
@@ -179,6 +199,9 @@ namespace FarmAnimalsGameV2.Views
             return builder.ToString();
         }
 
+        /// <summary>
+        /// Gère la sélection d'une carte et la logique de comparaison.
+        /// </summary>
         private async void CardButton_Click(object sender, RoutedEventArgs e)
         {
             if (_isChecking)
@@ -236,6 +259,9 @@ namespace FarmAnimalsGameV2.Views
             _isChecking = false;
         }
 
+        /// <summary>
+        /// Affiche le panneau de résumé (victoire ou défaite).
+        /// </summary>
         private void ShowSummary(bool isWinner)
         {
             if (_isCompleted)
@@ -263,6 +289,9 @@ namespace FarmAnimalsGameV2.Views
             CardsBoard.IsEnabled = false;
         }
 
+        /// <summary>
+        /// Réinitialise une partie de memory.
+        /// </summary>
         private void ResetGame()
         {
             _attempts = 0;
@@ -286,27 +315,39 @@ namespace FarmAnimalsGameV2.Views
             }
         }
 
+        /// <summary>
+        /// Notifie le retour au menu.
+        /// </summary>
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             BackRequested?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Relance une nouvelle partie.
+        /// </summary>
         private void RestartButton_Click(object sender, RoutedEventArgs e)
         {
             ResetGame();
         }
 
+        /// <summary>
+        /// Retourne la durée de base selon la difficulté.
+        /// </summary>
         private static TimeSpan GetDuration(GameDifficulty difficulty)
         {
             return difficulty switch
             {
-                GameDifficulty.Easy => TimeSpan.FromSeconds(90),
-                GameDifficulty.Medium => TimeSpan.FromSeconds(60),
-                GameDifficulty.Hard => TimeSpan.FromSeconds(45),
-                _ => TimeSpan.FromSeconds(60)
+                GameDifficulty.Easy => TimeSpan.FromSeconds(120),
+                GameDifficulty.Medium => TimeSpan.FromSeconds(90),
+                GameDifficulty.Hard => TimeSpan.FromSeconds(75),
+                _ => TimeSpan.FromSeconds(90)
             };
         }
 
+        /// <summary>
+        /// Applique une pénalité de temps après une erreur.
+        /// </summary>
         private void ApplyMistakePenalty()
         {
             var penalty = GetMistakePenalty(_difficulty);
@@ -320,6 +361,9 @@ namespace FarmAnimalsGameV2.Views
             }
         }
 
+        /// <summary>
+        /// Retourne la pénalité de temps selon la difficulté.
+        /// </summary>
         private static TimeSpan GetMistakePenalty(GameDifficulty difficulty)
         {
             return difficulty switch
@@ -331,6 +375,9 @@ namespace FarmAnimalsGameV2.Views
             };
         }
 
+        /// <summary>
+        /// Lance l'animation d'étoiles lors d'une paire trouvée.
+        /// </summary>
         private void TriggerStarBurst()
         {
             if (_starCanvas is null || _starCanvas.ActualWidth <= 0 || _starCanvas.ActualHeight <= 0)
@@ -363,6 +410,9 @@ namespace FarmAnimalsGameV2.Views
             CompositionTarget.Rendering += CompositionTarget_Rendering;
         }
 
+        /// <summary>
+        /// Anime les particules d'étoiles à chaque frame.
+        /// </summary>
         private void CompositionTarget_Rendering(object? sender, EventArgs e)
         {
             if (_activeStars.Count == 0)
@@ -411,16 +461,25 @@ namespace FarmAnimalsGameV2.Views
             }
         }
 
+        /// <summary>
+        /// Crée une étoile jaune par défaut.
+        /// </summary>
         private Shape CreateStarShape()
         {
             return CreateStarShape(Color.FromRgb(255, 214, 64));
         }
 
+        /// <summary>
+        /// Crée une étoile avec une couleur spécifique.
+        /// </summary>
         private Shape CreateStarShape(Color color)
         {
             return CreateStarShape(color, out _);
         }
 
+        /// <summary>
+        /// Crée une étoile et expose son pinceau de remplissage.
+        /// </summary>
         private Shape CreateStarShape(Color color, out SolidColorBrush brush)
         {
             var size = 14 + _random.Next(6);
@@ -449,6 +508,9 @@ namespace FarmAnimalsGameV2.Views
             };
         }
 
+        /// <summary>
+        /// Interpole deux couleurs pour l'animation de défaite.
+        /// </summary>
         private static Color LerpColor(Color start, Color end, double t)
         {
             t = Math.Max(0, Math.Min(1, t));
@@ -458,6 +520,9 @@ namespace FarmAnimalsGameV2.Views
             return Color.FromRgb(r, g, b);
         }
 
+        /// <summary>
+        /// Démarre les feux d'artifice de victoire.
+        /// </summary>
         private void StartFireworks()
         {
             if (_fireworksTimer.IsEnabled)
@@ -469,6 +534,9 @@ namespace FarmAnimalsGameV2.Views
             _fireworksTimer.Start();
         }
 
+        /// <summary>
+        /// Stoppe l'animation de feux d'artifice.
+        /// </summary>
         private void StopFireworks()
         {
             if (_fireworksTimer.IsEnabled)
@@ -477,6 +545,9 @@ namespace FarmAnimalsGameV2.Views
             }
         }
 
+        /// <summary>
+        /// Démarre l'animation de défaite.
+        /// </summary>
         private void StartLoseStars()
         {
             if (_loseStarsTimer.IsEnabled)
@@ -488,6 +559,9 @@ namespace FarmAnimalsGameV2.Views
             _loseStarsTimer.Start();
         }
 
+        /// <summary>
+        /// Stoppe l'animation de défaite.
+        /// </summary>
         private void StopLoseStars()
         {
             if (_loseStarsTimer.IsEnabled)
@@ -496,6 +570,9 @@ namespace FarmAnimalsGameV2.Views
             }
         }
 
+        /// <summary>
+        /// Anime les étoiles de défaite à intervalle régulier.
+        /// </summary>
         private void LoseStarsTimer_Tick(object? sender, EventArgs e)
         {
             if (_loseStarsTicks >= 12)
@@ -508,6 +585,9 @@ namespace FarmAnimalsGameV2.Views
             _loseStarsTicks++;
         }
 
+        /// <summary>
+        /// Génère des étoiles qui tombent lors d'une défaite.
+        /// </summary>
         private void TriggerLoseStarFall()
         {
             if (_starCanvas is null || _starCanvas.ActualWidth <= 0 || _starCanvas.ActualHeight <= 0)
@@ -538,6 +618,9 @@ namespace FarmAnimalsGameV2.Views
             CompositionTarget.Rendering += CompositionTarget_Rendering;
         }
 
+        /// <summary>
+        /// Déclenche une rafale de feux d'artifice.
+        /// </summary>
         private void FireworksTimer_Tick(object? sender, EventArgs e)
         {
             if (_fireworksTicks >= 10)
@@ -550,6 +633,9 @@ namespace FarmAnimalsGameV2.Views
             _fireworksTicks++;
         }
 
+        /// <summary>
+        /// Génère des particules de feux d'artifice.
+        /// </summary>
         private void TriggerFireworkBurst()
         {
             if (_starCanvas is null || _starCanvas.ActualWidth <= 0 || _starCanvas.ActualHeight <= 0)
@@ -585,6 +671,9 @@ namespace FarmAnimalsGameV2.Views
             CompositionTarget.Rendering += CompositionTarget_Rendering;
         }
 
+        /// <summary>
+        /// Crée une particule de feu d'artifice colorée.
+        /// </summary>
         private Shape CreateFireworkParticle(int baseHue)
         {
             var size = 8 + _random.Next(6);
@@ -598,6 +687,9 @@ namespace FarmAnimalsGameV2.Views
             };
         }
 
+        /// <summary>
+        /// Convertit une couleur HSV en RGB.
+        /// </summary>
         private static Color ColorFromHsv(double hue, double saturation, double value)
         {
             var chroma = value * saturation;
@@ -668,6 +760,9 @@ namespace FarmAnimalsGameV2.Views
             private bool _isMatched;
             private bool _isCleared;
 
+            /// <summary>
+            /// Initialise une carte de memory.
+            /// </summary>
             public MemoryCard(string label, int pairId, string imageFileName)
             {
                 Label = label;
@@ -731,6 +826,9 @@ namespace FarmAnimalsGameV2.Views
 
             public event PropertyChangedEventHandler? PropertyChanged;
 
+            /// <summary>
+            /// Notifie la mise à jour d'une propriété liée.
+            /// </summary>
             private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
             {
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
