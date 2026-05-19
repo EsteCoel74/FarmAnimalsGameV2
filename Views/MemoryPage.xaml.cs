@@ -146,7 +146,6 @@ namespace FarmAnimalsGameV2.Views
                 ("Chèvre", "Chevreau"),
                 ("Cochon", "Porcelet"),
                 ("Cheval", "Poulain"),
-                ("Âne", "Ânon"),
                 ("Lapin", "Lapereau"),
                 ("Canard", "Caneton"),
                 ("Oie", "Oison"),
@@ -192,7 +191,7 @@ namespace FarmAnimalsGameV2.Views
 
                 if (char.IsLetterOrDigit(character))
                 {
-                    builder.Append(character);
+                    builder.Append(char.ToLowerInvariant(character));
                 }
             }
 
