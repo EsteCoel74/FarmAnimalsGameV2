@@ -49,10 +49,12 @@ namespace FarmAnimalsGameV2
                 var memoryPage = new MemoryPage(e.Difficulty);
                 memoryPage.BackRequested += MemoryPage_BackRequested;
                 PageHost.Content = memoryPage;
+                RootGrid.Background = (System.Windows.Media.Brush)Resources["FarmBackground"];
                 return;
             }
 
             PageHost.Content = new MysteryAnimalPage();
+            RootGrid.Background = System.Windows.Media.Brushes.Transparent;
         }
 
         private void MemoryPage_BackRequested(object? sender, RoutedEventArgs e)
@@ -64,6 +66,7 @@ namespace FarmAnimalsGameV2
         {
             PageHost.Content = null;
             MainMenu.Visibility = Visibility.Visible;
+            RootGrid.Background = (System.Windows.Media.Brush)Resources["FarmBackground"];
         }
     }
 }
