@@ -17,7 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using FarmAnimalsGameV2;
+using FarmAnimalsGameV2.Services;
 
 namespace FarmAnimalsGameV2.Views
 {
@@ -35,7 +35,6 @@ namespace FarmAnimalsGameV2.Views
         private readonly List<MemoryCard> _selectedCards = new();
         private bool _isChecking;
         private int _attempts;
-        private int _maxAttempts;
         private bool _isCompleted;
         private readonly List<StarBurst> _activeStars = new();
         private readonly Canvas? _starCanvas;
@@ -61,7 +60,6 @@ namespace FarmAnimalsGameV2.Views
 
             _difficulty = difficulty;
             _duration = GetDuration(difficulty);
-            _maxAttempts = GetMaxAttempts(difficulty);
             _remaining = _duration;
             UpdateTimerText();
 
@@ -208,13 +206,6 @@ namespace FarmAnimalsGameV2.Views
 
             _isChecking = true;
             _attempts++;
-            if (_attempts >= _maxAttempts)
-            {
-                await Task.Delay(600);
-                _timer.Stop();
-                ShowSummary(isWinner: false);
-                return;
-            }
 
             var first = _selectedCards[0];
             var second = _selectedCards[1];
@@ -235,6 +226,7 @@ namespace FarmAnimalsGameV2.Views
             }
             else
             {
+                ApplyMistakePenalty();
                 await Task.Delay(900);
                 first.IsRevealed = false;
                 second.IsRevealed = false;
@@ -315,14 +307,27 @@ namespace FarmAnimalsGameV2.Views
             };
         }
 
-        private static int GetMaxAttempts(GameDifficulty difficulty)
+        private void ApplyMistakePenalty()
+        {
+            var penalty = GetMistakePenalty(_difficulty);
+            _remaining = _remaining > penalty ? _remaining - penalty : TimeSpan.Zero;
+            UpdateTimerText();
+
+            if (_remaining == TimeSpan.Zero)
+            {
+                _timer.Stop();
+                ShowSummary(isWinner: false);
+            }
+        }
+
+        private static TimeSpan GetMistakePenalty(GameDifficulty difficulty)
         {
             return difficulty switch
             {
-                GameDifficulty.Easy => 20,
-                GameDifficulty.Medium => 15,
-                GameDifficulty.Hard => 10,
-                _ => 15
+                GameDifficulty.Easy => TimeSpan.FromSeconds(7),
+                GameDifficulty.Medium => TimeSpan.FromSeconds(4),
+                GameDifficulty.Hard => TimeSpan.FromSeconds(2),
+                _ => TimeSpan.FromSeconds(2)
             };
         }
 
@@ -377,7 +382,7 @@ namespace FarmAnimalsGameV2.Views
                 star.Life -= 1;
                 if (star.IsFalling)
                 {
-                    star.Velocity = new Vector(star.Velocity.X, star.Velocity.Y + 0.35);
+                    star.Velocity = new Vector(star.Velocity.X, star.Velocity.Y + 1.2);
                 }
                 else
                 {
@@ -547,6 +552,7 @@ namespace FarmAnimalsGameV2.Views
                     Shape = CreateFireworkParticle(hue),
                     IsFalling = false
                 };
+                particle.InitialLife = particle.Life;
                 _activeStars.Add(particle);
                 _starCanvas.Children.Add(particle.Shape);
                 Canvas.SetLeft(particle.Shape, centerX);
@@ -622,13 +628,25 @@ namespace FarmAnimalsGameV2.Views
             return Color.FromRgb(r, g, b);
         }
 
+        private static Color LerpColor(Color start, Color end, double t)
+        {
+            t = Math.Max(0, Math.Min(1, t));
+            var r = (byte)Math.Round(start.R + (end.R - start.R) * t);
+            var g = (byte)Math.Round(start.G + (end.G - start.G) * t);
+            var b = (byte)Math.Round(start.B + (end.B - start.B) * t);
+            return Color.FromRgb(r, g, b);
+        }
+
         private sealed class StarBurst
         {
             public Vector Position { get; set; }
             public Vector Velocity { get; set; }
             public double Life { get; set; }
+            public double InitialLife { get; set; }
             public Shape Shape { get; set; } = null!;
+            public SolidColorBrush? FillBrush { get; set; }
             public bool IsFalling { get; set; }
+            public bool FadeToGray { get; set; }
         }
 
         public sealed class MemoryCard : INotifyPropertyChanged
@@ -647,7 +665,7 @@ namespace FarmAnimalsGameV2.Views
             public string Label { get; }
             public int PairId { get; }
             public string ImageFileName { get; }
-            public string ImagePath => $"pack://application:,,,/Assets/{ImageFileName}.png";
+            public string ImagePath => $"pack://application:,,,/Assets/Memory/{ImageFileName}.png";
 
             public bool IsRevealed
             {

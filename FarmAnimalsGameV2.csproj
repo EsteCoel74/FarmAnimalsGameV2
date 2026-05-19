@@ -9,11 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Assets\" />
+    <Folder Include="Assets\Memory\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Assets\*.png" />
+    <Resource Include="Assets\Farm.png" />
+    <Resource Include="Assets\Memory\*.png" />
   </ItemGroup>
 
 </Project>
