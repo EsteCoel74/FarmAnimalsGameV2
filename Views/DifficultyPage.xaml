@@ -29,19 +29,19 @@
             <Button Background="#FF7FB2FF" Foreground="White" Height="58" FontSize="18" Margin="0,0,0,16" Click="EasyButton_Click" Style="{StaticResource DifficultyButtonStyle}">
                 <StackPanel>
                     <TextBlock Text="Facile" HorizontalAlignment="Center" />
-                    <TextBlock Text="Essais max : 20" FontSize="12" HorizontalAlignment="Center" />
+                    <TextBlock Text="-7 s à chaque erreur" FontSize="12" HorizontalAlignment="Center" />
                 </StackPanel>
             </Button>
             <Button Background="#FF84D37E" Foreground="White" Height="58" FontSize="18" Margin="0,0,0,16" Click="MediumButton_Click" Style="{StaticResource DifficultyButtonStyle}">
                 <StackPanel>
                     <TextBlock Text="Moyen" HorizontalAlignment="Center" />
-                    <TextBlock Text="Essais max : 15" FontSize="12" HorizontalAlignment="Center" />
+                    <TextBlock Text="-4 s à chaque erreur" FontSize="12" HorizontalAlignment="Center" />
                 </StackPanel>
             </Button>
             <Button Background="#FFFFB74D" Foreground="White" Height="58" FontSize="18" Margin="0,0,0,16" Click="HardButton_Click" Style="{StaticResource DifficultyButtonStyle}">
                 <StackPanel>
                     <TextBlock Text="Difficile" HorizontalAlignment="Center" />
-                    <TextBlock Text="Essais max : 10" FontSize="12" HorizontalAlignment="Center" />
+                    <TextBlock Text="-2 s à chaque erreur" FontSize="12" HorizontalAlignment="Center" />
                 </StackPanel>
             </Button>
             <Button Content="Retour" Background="#FFB0BEC5" Foreground="White" Height="44" FontSize="16" Click="BackButton_Click" Style="{StaticResource DifficultyButtonStyle}" />
