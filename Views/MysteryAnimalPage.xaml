@@ -6,7 +6,387 @@
              xmlns:local="clr-namespace:FarmAnimalsGameV2.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        
+    <UserControl.Resources>
+        <FontFamily x:Key="KidsFont">Segoe UI Rounded, Comic Sans MS, Segoe UI</FontFamily>
+
+        <SolidColorBrush x:Key="Sunny"      Color="#F7C948"/>
+        <SolidColorBrush x:Key="SunnyDark"  Color="#E0A800"/>
+        <SolidColorBrush x:Key="Coral"      Color="#FF5252"/>
+        <SolidColorBrush x:Key="CoralDark"  Color="#C62828"/>
+        <SolidColorBrush x:Key="Purple"     Color="#7C3AED"/>
+        <SolidColorBrush x:Key="PurpleDark" Color="#5B21B6"/>
+        <SolidColorBrush x:Key="CardBlue"   Color="#E0F7FF"/>
+        <SolidColorBrush x:Key="CardBlueBd" Color="#6DC8E8"/>
+        <SolidColorBrush x:Key="StatusBg"   Color="#FFFBE6"/>
+        <SolidColorBrush x:Key="StatusFg"   Color="#A07800"/>
+
+        <!-- ══ BOUTON RÉPONSE ══ -->
+        <Style x:Key="AnswerBtn" TargetType="Button">
+            <Setter Property="FontFamily"      Value="{StaticResource KidsFont}"/>
+            <Setter Property="FontSize"        Value="14"/>
+            <Setter Property="FontWeight"      Value="Bold"/>
+            <Setter Property="BorderThickness" Value="3,3,3,5"/>
+            <Setter Property="Margin"          Value="5"/>
+            <Setter Property="Cursor"          Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="18" Padding="10,14">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="RenderTransformOrigin" Value="0.5,0.5"/>
+                                <Setter TargetName="Bd" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="1.06" ScaleY="1.06"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Bd" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <TranslateTransform Y="3"/>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter TargetName="Bd" Property="BorderThickness" Value="3,3,3,2"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Bd" Property="Opacity" Value="0.45"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="AnswerBtnRed"   BasedOn="{StaticResource AnswerBtn}" TargetType="Button">
+            <Setter Property="Background"  Value="#FFF0F0"/>
+            <Setter Property="BorderBrush" Value="#FF5252"/>
+            <Setter Property="Foreground"  Value="#C62828"/>
+        </Style>
+        <Style x:Key="AnswerBtnBlue"  BasedOn="{StaticResource AnswerBtn}" TargetType="Button">
+            <Setter Property="Background"  Value="#EEF6FF"/>
+            <Setter Property="BorderBrush" Value="#5BA4CF"/>
+            <Setter Property="Foreground"  Value="#1E5F8E"/>
+        </Style>
+        <Style x:Key="AnswerBtnGreen" BasedOn="{StaticResource AnswerBtn}" TargetType="Button">
+            <Setter Property="Background"  Value="#F0FFF4"/>
+            <Setter Property="BorderBrush" Value="#48BB78"/>
+            <Setter Property="Foreground"  Value="#1E6B3A"/>
+        </Style>
+        <Style x:Key="AnswerBtnAmber" BasedOn="{StaticResource AnswerBtn}" TargetType="Button">
+            <Setter Property="Background"  Value="#FFFBE6"/>
+            <Setter Property="BorderBrush" Value="#ECC94B"/>
+            <Setter Property="Foreground"  Value="#7B5A00"/>
+        </Style>
+
+        <!-- ══ BOUTON PILULE ══ -->
+        <Style x:Key="PillBtn" TargetType="Button">
+            <Setter Property="FontFamily"      Value="{StaticResource KidsFont}"/>
+            <Setter Property="FontSize"        Value="15"/>
+            <Setter Property="FontWeight"      Value="Bold"/>
+            <Setter Property="Foreground"      Value="White"/>
+            <Setter Property="BorderThickness" Value="0,0,0,4"/>
+            <Setter Property="Padding"         Value="28,12"/>
+            <Setter Property="Cursor"          Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="999" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <TranslateTransform Y="-2"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Bd" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <TranslateTransform Y="2"/>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter TargetName="Bd" Property="BorderThickness" Value="0,0,0,2"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="PillBtnPurple" BasedOn="{StaticResource PillBtn}" TargetType="Button">
+            <Setter Property="Background"  Value="{StaticResource Purple}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource PurpleDark}"/>
+        </Style>
+        <Style x:Key="PillBtnRed" BasedOn="{StaticResource PillBtn}" TargetType="Button">
+            <Setter Property="Background"  Value="{StaticResource Coral}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource CoralDark}"/>
+        </Style>
+        <Style x:Key="PillBtnGold" BasedOn="{StaticResource PillBtn}" TargetType="Button">
+            <Setter Property="Background"  Value="{StaticResource Sunny}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource SunnyDark}"/>
+            <Setter Property="Foreground"  Value="#7A5C00"/>
+        </Style>
+
+    </UserControl.Resources>
+
+    <Grid Background="#FEF6E4">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <!-- ══ ROW 0 — HEADER SOLEIL ══ -->
+        <Border Grid.Row="0"
+                Background="{StaticResource Sunny}"
+                BorderBrush="{StaticResource SunnyDark}"
+                BorderThickness="0,0,0,4"
+                CornerRadius="0,0,36,36"
+                Padding="20,14,20,18">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Cœurs -->
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock x:Name="Heart1" Text="❤️" FontSize="28" Margin="2,0"/>
+                    <TextBlock x:Name="Heart2" Text="❤️" FontSize="28" Margin="2,0"/>
+                    <TextBlock x:Name="Heart3" Text="❤️" FontSize="28" Margin="2,0"/>
+                </StackPanel>
+
+                <!-- Badge manche -->
+                <Border Grid.Column="1"
+                        Background="{StaticResource Coral}"
+                        BorderBrush="{StaticResource CoralDark}"
+                        BorderThickness="0,0,0,3"
+                        CornerRadius="999" Padding="18,7">
+                    <TextBlock x:Name="RoundLabel" Text="Manche 1 / 3"
+                               FontFamily="{StaticResource KidsFont}"
+                               FontSize="15" FontWeight="Bold" Foreground="White"
+                               HorizontalAlignment="Center"/>
+                </Border>
+
+                <!-- Score -->
+                <Border Grid.Column="2"
+                        Background="White"
+                        BorderBrush="{StaticResource Coral}"
+                        BorderThickness="3"
+                        CornerRadius="999" Padding="16,7"
+                        HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Score : "
+                                   FontFamily="{StaticResource KidsFont}"
+                                   FontSize="14" Foreground="#AAA"/>
+                        <TextBlock x:Name="ScoreLabel" Text="0"
+                                   FontFamily="{StaticResource KidsFont}"
+                                   FontSize="15" FontWeight="Bold"
+                                   Foreground="{StaticResource CoralDark}"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- ══ ROW 1 — ZONE DE JEU ══ -->
+        <Grid Grid.Row="1" Margin="20,16">
+
+            <!-- ── ÉCRAN ATTENTE ── -->
+            <StackPanel x:Name="WaitingScreen"
+                        HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                <!-- Stickers animaux décoratifs -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,10">
+                    <TextBlock Text="🐄" FontSize="30" Margin="4,0"/>
+                    <TextBlock Text="🐑" FontSize="30" Margin="4,0"/>
+                    <TextBlock Text="🐷" FontSize="30" Margin="4,0"/>
+                    <TextBlock Text="🐓" FontSize="30" Margin="4,0"/>
+                    <TextBlock Text="🐴" FontSize="30" Margin="4,0"/>
+                </StackPanel>
+
+                <TextBlock Text="Approche ta carte animal !"
+                           FontFamily="{StaticResource KidsFont}"
+                           FontSize="22" FontWeight="Bold"
+                           Foreground="#5B3A8E"
+                           HorizontalAlignment="Center" Margin="0,0,0,4"/>
+                <TextBlock Text="Le lecteur RFID est prêt"
+                           FontFamily="{StaticResource KidsFont}"
+                           FontSize="13" Foreground="#AAA"
+                           HorizontalAlignment="Center" Margin="0,0,0,22"/>
+                <Button Content="▶  Simuler une carte (démo)"
+                        Style="{StaticResource PillBtnPurple}"
+                        HorizontalAlignment="Center"
+                        Click="SimulateRfid_Click"/>
+            </StackPanel>
+
+            <!-- ── ÉCRAN QUESTION ── -->
+            <Grid x:Name="QuestionScreen" Visibility="Collapsed">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Carte animal (gauche) -->
+                <Border Grid.Column="0" Margin="0,0,10,0"
+                        Background="{StaticResource CardBlue}"
+                        BorderBrush="{StaticResource CardBlueBd}"
+                        BorderThickness="3.5" CornerRadius="28" Padding="18">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <!-- Badge RFID -->
+                        <Border Background="White"
+                                BorderBrush="{StaticResource CardBlueBd}"
+                                BorderThickness="1.5" CornerRadius="999"
+                                Padding="12,4" HorizontalAlignment="Center" Margin="0,0,0,12">
+                            <TextBlock x:Name="RfidBadge" Text="🏷 RFID : —"
+                                       FontFamily="{StaticResource KidsFont}"
+                                       FontSize="11" Foreground="#2A9FC7"/>
+                        </Border>
+
+                        <!-- Emoji animal -->
+                        <TextBlock x:Name="AnimalEmoji" Text="❓"
+                                   FontSize="90" HorizontalAlignment="Center"
+                                   TextAlignment="Center"/>
+
+                        <!-- Indice -->
+                        <TextBlock x:Name="AnimalHint" Text=""
+                                   FontFamily="{StaticResource KidsFont}"
+                                   FontSize="13" Foreground="#5A8FA0"
+                                   HorizontalAlignment="Center"
+                                   TextWrapping="Wrap" TextAlignment="Center"
+                                   Margin="0,10,0,0" MaxWidth="200"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Boutons réponses (droite) -->
+                <Grid Grid.Column="1" Margin="10,0,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Text="Quel est cet animal ?"
+                               FontFamily="{StaticResource KidsFont}"
+                               FontSize="18" FontWeight="Bold" Foreground="#5B3A8E"
+                               Margin="0,0,0,10"/>
+
+                    <UniformGrid Grid.Row="1" Rows="2" Columns="2">
+                        <Button x:Name="BtnA" Style="{StaticResource AnswerBtnRed}"   Tag="0" Click="Answer_Click">
+                            <TextBlock FontFamily="{StaticResource KidsFont}" TextWrapping="Wrap" TextAlignment="Center" FontSize="14"/>
+                        </Button>
+                        <Button x:Name="BtnB" Style="{StaticResource AnswerBtnBlue}"  Tag="1" Click="Answer_Click">
+                            <TextBlock FontFamily="{StaticResource KidsFont}" TextWrapping="Wrap" TextAlignment="Center" FontSize="14"/>
+                        </Button>
+                        <Button x:Name="BtnC" Style="{StaticResource AnswerBtnGreen}" Tag="2" Click="Answer_Click">
+                            <TextBlock FontFamily="{StaticResource KidsFont}" TextWrapping="Wrap" TextAlignment="Center" FontSize="14"/>
+                        </Button>
+                        <Button x:Name="BtnD" Style="{StaticResource AnswerBtnAmber}" Tag="3" Click="Answer_Click">
+                            <TextBlock FontFamily="{StaticResource KidsFont}" TextWrapping="Wrap" TextAlignment="Center" FontSize="14"/>
+                        </Button>
+                    </UniformGrid>
+                </Grid>
+            </Grid>
+
+            <!-- ── ÉCRAN GAME OVER ── -->
+            <StackPanel x:Name="GameOverScreen" Visibility="Collapsed"
+                        HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="😢" FontSize="80" HorizontalAlignment="Center"/>
+                <TextBlock Text="Game Over !"
+                           FontFamily="{StaticResource KidsFont}"
+                           FontSize="28" FontWeight="Bold"
+                           Foreground="{StaticResource Coral}"
+                           HorizontalAlignment="Center" Margin="0,10,0,4"/>
+                <TextBlock x:Name="GameOverScore"
+                           FontFamily="{StaticResource KidsFont}"
+                           FontSize="16" Foreground="#777"
+                           HorizontalAlignment="Center" Margin="0,0,0,24"/>
+                <Button Content="🔄  Choisir la difficulté"
+                        Style="{StaticResource PillBtnRed}"
+                        HorizontalAlignment="Center" Click="Replay_Click"/>
+            </StackPanel>
+
+            <!-- ── ÉCRAN VICTOIRE ── -->
+            <StackPanel x:Name="WinScreen" Visibility="Collapsed"
+                        HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                <!-- Stickers victoire -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,8">
+                    <TextBlock Text="⭐" FontSize="26" Margin="4,0"/>
+                    <TextBlock Text="🎉" FontSize="26" Margin="4,0"/>
+                    <TextBlock Text="🏆" FontSize="26" Margin="4,0"/>
+                    <TextBlock Text="🎉" FontSize="26" Margin="4,0"/>
+                    <TextBlock Text="⭐" FontSize="26" Margin="4,0"/>
+                </StackPanel>
+
+                <TextBlock Text="Bravo, tu as gagné !"
+                           FontFamily="{StaticResource KidsFont}"
+                           FontSize="26" FontWeight="Bold"
+                           Foreground="#E0A800"
+                           HorizontalAlignment="Center" Margin="0,4,0,4"/>
+                <TextBlock x:Name="WinScore"
+                           FontFamily="{StaticResource KidsFont}"
+                           FontSize="16" Foreground="#777"
+                           HorizontalAlignment="Center" Margin="0,0,0,24"/>
+                <Button Content="🔄  Choisir la difficulté"
+                        Style="{StaticResource PillBtnGold}"
+                        HorizontalAlignment="Center" Click="Replay_Click"/>
+            </StackPanel>
+
+        </Grid>
+
+        <!-- ══ ROW 2 — TIMER ══ -->
+        <Border x:Name="TimerRow" Grid.Row="2" Padding="20,10" Visibility="Collapsed">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Text="⏱" FontSize="18" Foreground="#AAA"
+                           VerticalAlignment="Center" Margin="0,0,10,0"/>
+
+                <Border Grid.Column="1" Background="#E8E8E8" CornerRadius="999"
+                        Height="18" VerticalAlignment="Center"
+                        BorderBrush="#D0D0D0" BorderThickness="2">
+                    <Grid>
+                        <Border x:Name="TimerBar" Background="#48BB78" CornerRadius="999"
+                                HorizontalAlignment="Left"/>
+                    </Grid>
+                </Border>
+
+                <TextBlock Grid.Column="2" x:Name="TimerLabel" Text="30s"
+                           FontFamily="{StaticResource KidsFont}"
+                           FontSize="15" FontWeight="Bold" Foreground="#777"
+                           VerticalAlignment="Center" Margin="10,0,0,0"/>
+            </Grid>
+        </Border>
+
+        <!-- ══ ROW 3 — BARRE DE STATUT ══ -->
+        <Border Grid.Row="3"
+                Background="{StaticResource StatusBg}"
+                BorderBrush="{StaticResource SunnyDark}"
+                BorderThickness="0,2,0,0"
+                Padding="20,10">
+            <TextBlock x:Name="StatusText"
+                       Text="En attente d'une carte RFID…"
+                       FontFamily="{StaticResource KidsFont}"
+                       FontSize="13" Foreground="{StaticResource StatusFg}"
+                       HorizontalAlignment="Center"/>
+        </Border>
+
     </Grid>
 </UserControl>

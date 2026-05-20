@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="545" Width="730">
     <Window.Resources>
+        <ImageBrush x:Key="FarmBackground" ImageSource="Assets/Farm.png" Stretch="UniformToFill" />
         <Style x:Key="RoundedButtonStyle" TargetType="Button">
             <Setter Property="Template">
                 <Setter.Value>
@@ -19,14 +20,20 @@
             </Setter>
         </Style>
     </Window.Resources>
-    <Grid>
-        <Grid.Background>
-            <ImageBrush ImageSource="Assets/Farm.png" Stretch="UniformToFill" />
-        </Grid.Background>
+    <Grid x:Name="RootGrid" Background="{StaticResource FarmBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+        <MediaElement x:Name="BackgroundMusic"
+                      Source="pack://siteoforigin:,,,/Assets/La Valse de la Grange.mp3"
+                      LoadedBehavior="Manual"
+                      UnloadedBehavior="Manual"
+                      Volume="0.4"
+                      IsMuted="False"
+                      IsHitTestVisible="False"
+                      Visibility="Collapsed"
+                      Grid.RowSpan="2" />
         <Grid Grid.Row="0">
             <ContentControl x:Name="PageHost" />
             <StackPanel x:Name="MainMenu" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300">
