@@ -25,15 +25,6 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <MediaElement x:Name="BackgroundMusic"
-                      Source="pack://siteoforigin:,,,/Assets/La Valse de la Grange.mp3"
-                      LoadedBehavior="Manual"
-                      UnloadedBehavior="Manual"
-                      Volume="0.4"
-                      IsMuted="False"
-                      IsHitTestVisible="False"
-                      Visibility="Collapsed"
-                      Grid.RowSpan="2" />
         <Grid Grid.Row="0">
             <ContentControl x:Name="PageHost" />
             <StackPanel x:Name="MainMenu" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300">

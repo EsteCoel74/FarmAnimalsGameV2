@@ -11,7 +11,6 @@ namespace FarmAnimalsGameV2
     public partial class MainWindow : Window
     {
         private bool _isMemoryMode;
-        private readonly MediaElement? _backgroundMusic;
         private WindowState _previousWindowState;
         private WindowStyle _previousWindowStyle;
         private ResizeMode _previousResizeMode;
@@ -20,52 +19,6 @@ namespace FarmAnimalsGameV2
         public MainWindow()
         {
             InitializeComponent();
-            _backgroundMusic = FindName("BackgroundMusic") as MediaElement;
-            Loaded += MainWindow_Loaded;
-            Unloaded += MainWindow_Unloaded;
-        }
-
-        /// <summary>
-        /// Démarre la musique globale quand la fenêtre est chargée.
-        /// </summary>
-        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (_backgroundMusic is null)
-            {
-                return;
-            }
-
-            _backgroundMusic.MediaEnded += BackgroundMusic_MediaEnded;
-            _backgroundMusic.Position = TimeSpan.Zero;
-            _backgroundMusic.Play();
-        }
-
-        /// <summary>
-        /// Arrête la musique et libère les événements lors du déchargement.
-        /// </summary>
-        private void MainWindow_Unloaded(object sender, RoutedEventArgs e)
-        {
-            if (_backgroundMusic is null)
-            {
-                return;
-            }
-
-            _backgroundMusic.MediaEnded -= BackgroundMusic_MediaEnded;
-            _backgroundMusic.Stop();
-        }
-
-        /// <summary>
-        /// Relance la musique lorsqu'elle se termine.
-        /// </summary>
-        private void BackgroundMusic_MediaEnded(object sender, RoutedEventArgs e)
-        {
-            if (_backgroundMusic is null)
-            {
-                return;
-            }
-
-            _backgroundMusic.Position = TimeSpan.Zero;
-            _backgroundMusic.Play();
         }
 
         /// <summary>
