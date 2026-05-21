@@ -53,6 +53,7 @@ namespace FarmAnimalsGameV2.Views
         private AnimalCard _currentAnimal;
         private int _correctIndex;
         private bool _waitingForRfid;
+        private MediaPlayer _mediaPlayer = new MediaPlayer();
 
         private readonly DispatcherTimer _countdownTimer = new DispatcherTimer
         {
@@ -81,6 +82,11 @@ namespace FarmAnimalsGameV2.Views
         {
             InitializeComponent();
             _countdownTimer.Tick += CountdownTimer_Tick;
+            _mediaPlayer.MediaEnded += (s, e) =>
+            {
+                _mediaPlayer.Position = TimeSpan.Zero;
+                _mediaPlayer.Play();
+            };
             // ResetGame() est appelé via StartGame() après avoir défini CurrentDifficulty
         }
 
@@ -91,6 +97,15 @@ namespace FarmAnimalsGameV2.Views
         {
             ResetGame();
             StartRfidListener();
+
+            System.Diagnostics.Debug.WriteLine($"[DIFFICULTÉ] {CurrentDifficulty}"); // ← ici
+            string musique = CurrentDifficulty == Difficulty.Facile ? "SpongeBobSquarePants.mp3" :
+                             CurrentDifficulty == Difficulty.Moyen ? "CoC.mp3" :
+                             CurrentDifficulty == Difficulty.Difficile ? "SpongeBobSquarePants.mp3" : "";
+            string path = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "Audio", musique);
+            _mediaPlayer.Open(new Uri(path));
+            _mediaPlayer.Volume = 0.5;
+            _mediaPlayer.Play();
 
         }
         // ── Imports DLL ──────────────────────────────────────────
@@ -181,6 +196,7 @@ namespace FarmAnimalsGameV2.Views
             {
                 _countdownTimer.Stop();
                 _rfidRunning = false;
+                _mediaPlayer.Stop();
             }
         }
 
@@ -236,7 +252,7 @@ namespace FarmAnimalsGameV2.Views
         {
             _waitingForRfid = false;
             _currentAnimal = animal;
-            AnimalImage.Source = new BitmapImage(new Uri($"pack://application:,,,/Assets/AnimalMystere/{animal.ImageFile}"));
+            //AnimalImage.Source = new BitmapImage(new Uri($"pack://application:,,,/Assets/AnimalMystere/{animal.ImageFile}"));
             AnimalHint.Text = $"Indice : {animal.Hint}";
             RfidBadge.Text = $"🏷 RFID : {animal.RfidTag}";
             BuildAnswerButtons(animal);
@@ -267,7 +283,7 @@ namespace FarmAnimalsGameV2.Views
             for (int i = 0; i < 4; i++)
             {
                 var sp = (StackPanel)btns[i].Content;
-                var tb = (TextBlock)sp.Children[1];
+                var tb = sp.Children.OfType<TextBlock>().First();
                 var img = (Image)sp.Children[0];
                 tb.Text = choices[i].Name;
                 img.Source = new BitmapImage(new Uri($"pack://application:,,,/Assets/AnimalMystere/{choices[i].ImageFile}"));

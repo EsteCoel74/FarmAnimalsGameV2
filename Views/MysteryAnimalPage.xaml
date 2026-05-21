@@ -257,6 +257,12 @@
                                        FontSize="11" Foreground="#2A9FC7"/>
                         </Border>
 
+                        <!--<Image x:Name="AnimalImage"
+                        Width="150" Height="150"
+                        Stretch="Uniform"
+                        HorizontalAlignment="Center"
+                        Margin="0,0,0,10"/>-->
+
 
 
                         <!-- Indice -->

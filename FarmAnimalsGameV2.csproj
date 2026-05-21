@@ -59,6 +59,25 @@
     <None Remove="Assets\AnimalMystere\oie.jpg" />
     <None Remove="Assets\AnimalMystere\poule.jpg" />
     <None Remove="Assets\AnimalMystere\vache.jpg" />
+    <None Remove="Assets\Audio\CoC.mp3" />
+    <None Remove="Assets\Audio\Garfield.mp3" />
+    <None Remove="Assets\Audio\LethalLavaLand.mp3" />
+    <None Remove="Assets\Audio\SpongeBobSquarePants.mp3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\Audio\CoC.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Audio\Garfield.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Audio\LethalLavaLand.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Audio\SpongeBobSquarePants.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
