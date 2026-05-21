@@ -30,6 +30,8 @@ namespace FarmAnimalsGameV2.Views
         private readonly DispatcherTimer _timer;
         private readonly TimeSpan _duration;
         private readonly GameDifficulty _difficulty;
+        private readonly MediaElement? _backgroundMusic;
+        private System.Windows.Media.MediaPlayer? _backgroundPlayer;
         private TimeSpan _remaining;
         private readonly Random _random = new();
         private readonly List<MemoryCard> _selectedCards = new();
@@ -58,6 +60,8 @@ namespace FarmAnimalsGameV2.Views
             InitializeComponent();
 
             _starCanvas = FindName("StarCanvas") as Canvas;
+            _backgroundMusic = FindName("BackgroundMusic") as MediaElement;
+            InitializeBackgroundMusic();
 
             DataContext = this;
 
@@ -80,11 +84,39 @@ namespace FarmAnimalsGameV2.Views
             _loseStarsTimer.Tick += LoseStarsTimer_Tick;
         }
 
+        private void InitializeBackgroundMusic()
+        {
+            var audioPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "La Valse de la Grange.mp3");
+            var audioUri = new Uri(audioPath, UriKind.Absolute);
+            if (_backgroundMusic is not null)
+            {
+                _backgroundMusic.Source = audioUri;
+            }
+
+            _backgroundPlayer = new System.Windows.Media.MediaPlayer();
+            _backgroundPlayer.Open(audioUri);
+        }
+
         /// <summary>
         /// Démarre le timer quand la page est chargée.
         /// </summary>
         private void MemoryPage_Loaded(object sender, RoutedEventArgs e)
         {
+            if (_backgroundMusic is not null)
+            {
+                _backgroundMusic.MediaEnded += BackgroundMusic_MediaEnded;
+                _backgroundMusic.Position = TimeSpan.Zero;
+                _backgroundMusic.Play();
+            }
+
+            if (_backgroundPlayer is not null)
+            {
+                _backgroundPlayer.MediaEnded += BackgroundPlayer_MediaEnded;
+                _backgroundPlayer.Position = TimeSpan.Zero;
+                _backgroundPlayer.Volume = 0.4;
+                _backgroundPlayer.Play();
+            }
+
             if (!_timer.IsEnabled)
             {
                 _timer.Start();
@@ -96,6 +128,18 @@ namespace FarmAnimalsGameV2.Views
         /// </summary>
         private void MemoryPage_Unloaded(object sender, RoutedEventArgs e)
         {
+            if (_backgroundMusic is not null)
+            {
+                _backgroundMusic.MediaEnded -= BackgroundMusic_MediaEnded;
+                _backgroundMusic.Stop();
+            }
+
+            if (_backgroundPlayer is not null)
+            {
+                _backgroundPlayer.MediaEnded -= BackgroundPlayer_MediaEnded;
+                _backgroundPlayer.Stop();
+            }
+
             if (_timer.IsEnabled)
             {
                 _timer.Stop();
@@ -104,6 +148,31 @@ namespace FarmAnimalsGameV2.Views
             StopFireworks();
             StopLoseStars();
             CompositionTarget.Rendering -= CompositionTarget_Rendering;
+        }
+
+        /// <summary>
+        /// Relance la musique lorsqu'elle se termine.
+        /// </summary>
+        private void BackgroundMusic_MediaEnded(object sender, RoutedEventArgs e)
+        {
+            if (_backgroundMusic is null)
+            {
+                return;
+            }
+
+            _backgroundMusic.Position = TimeSpan.Zero;
+            _backgroundMusic.Play();
+        }
+
+        private void BackgroundPlayer_MediaEnded(object? sender, EventArgs e)
+        {
+            if (_backgroundPlayer is null)
+            {
+                return;
+            }
+
+            _backgroundPlayer.Position = TimeSpan.Zero;
+            _backgroundPlayer.Play();
         }
 
         /// <summary>
@@ -179,16 +248,11 @@ namespace FarmAnimalsGameV2.Views
         /// </summary>
         private static string NormalizeFileName(string label)
         {
-            var normalized = label.Normalize(NormalizationForm.FormD);
+            var normalized = label.Normalize(NormalizationForm.FormC);
             var builder = new StringBuilder();
 
             foreach (var character in normalized)
             {
-                if (CharUnicodeInfo.GetUnicodeCategory(character) == UnicodeCategory.NonSpacingMark)
-                {
-                    continue;
-                }
-
                 if (char.IsLetterOrDigit(character))
                 {
                     builder.Append(char.ToLowerInvariant(character));
