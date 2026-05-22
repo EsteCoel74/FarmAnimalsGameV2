@@ -61,13 +61,35 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <TextBlock x:Name="TimerText"
-                   HorizontalAlignment="Right"
-                   VerticalAlignment="Top"
-                   Margin="0,6,24,0"
-                   FontSize="28"
-                   Foreground="#FF1B1B1B"
-                   FontWeight="SemiBold" />
+        <MediaElement x:Name="BackgroundMusic"
+                      LoadedBehavior="Manual"
+                      UnloadedBehavior="Manual"
+                      Volume="0.4"
+                      IsMuted="False"
+                      IsHitTestVisible="False"
+                      Visibility="Collapsed" />
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Button Content="Retour"
+                    Width="110"
+                    Height="40"
+                    Margin="16,10,0,0"
+                    VerticalAlignment="Top"
+                    Background="#FFB0BEC5"
+                    Style="{StaticResource SummaryButtonStyle}"
+                    Click="BackButton_Click" />
+            <TextBlock x:Name="TimerText"
+                       Grid.Column="1"
+                       HorizontalAlignment="Right"
+                       VerticalAlignment="Top"
+                       Margin="0,6,24,0"
+                       FontSize="28"
+                       Foreground="#FF1B1B1B"
+                       FontWeight="SemiBold" />
+        </Grid>
         <ItemsControl x:Name="CardsBoard"
                       Grid.Row="1"
                       ItemsSource="{Binding Cards}"
@@ -75,7 +97,7 @@
                       VerticalAlignment="Center">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <UniformGrid Rows="2" Columns="5" />
+                    <UniformGrid Rows="4" Columns="5" />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
