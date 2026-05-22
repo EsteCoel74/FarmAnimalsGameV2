@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
-    <Platforms>AnyCPU;x86</Platforms>
+    <Platforms>AnyCPU;x86;ARM32</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,20 +14,83 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Assets\AnimalMystere\ane.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\AnimalMystere\cheval.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\AnimalMystere\chèvre.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\AnimalMystere\cochon.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\AnimalMystere\coq.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\AnimalMystere\lapin.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\AnimalMystere\mouton.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\AnimalMystere\oie.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\AnimalMystere\poule.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\AnimalMystere\vache.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Assets\Farm.png" />
     <Resource Include="Assets\Memory\*.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Assets\La Valse de la Grange.mp3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <None Remove="Assets\AnimalMystere\ane.jpg" />
+    <None Remove="Assets\AnimalMystere\cheval.jpg" />
+    <None Remove="Assets\AnimalMystere\chèvre.jpg" />
+    <None Remove="Assets\AnimalMystere\cochon.jpg" />
+    <None Remove="Assets\AnimalMystere\coq.jpg" />
+    <None Remove="Assets\AnimalMystere\lapin.jpg" />
+    <None Remove="Assets\AnimalMystere\mouton.jpg" />
+    <None Remove="Assets\AnimalMystere\oie.jpg" />
+    <None Remove="Assets\AnimalMystere\poule.jpg" />
+    <None Remove="Assets\AnimalMystere\vache.jpg" />
+    <None Remove="Assets\Audio\CoC.mp3" />
+    <None Remove="Assets\Audio\Garfield.mp3" />
+    <None Remove="Assets\Audio\LethalLavaLand.mp3" />
+    <None Remove="Assets\Audio\SpongeBobSquarePants.mp3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\Audio\CoC.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\Memory\VictoireMemory.mp3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <Content Include="Assets\Audio\Garfield.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\Memory\LooseMemory.mp3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <Content Include="Assets\Audio\LethalLavaLand.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\Audio\SpongeBobSquarePants.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.IO.Ports" Version="10.0.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="MasterCom.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="MasterRD.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

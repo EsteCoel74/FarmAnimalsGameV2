@@ -256,10 +256,13 @@
                                        FontSize="11" Foreground="#2A9FC7"/>
                         </Border>
 
-                        <!-- Emoji animal -->
-                        <TextBlock x:Name="AnimalEmoji" Text="❓"
-                                   FontSize="90" HorizontalAlignment="Center"
-                                   TextAlignment="Center"/>
+                        <!--<Image x:Name="AnimalImage"
+                        Width="150" Height="150"
+                        Stretch="Uniform"
+                        HorizontalAlignment="Center"
+                        Margin="0,0,0,10"/>-->
+
+
 
                         <!-- Indice -->
                         <TextBlock x:Name="AnimalHint" Text=""
@@ -285,16 +288,28 @@
 
                     <UniformGrid Grid.Row="1" Rows="2" Columns="2">
                         <Button x:Name="BtnA" Style="{StaticResource AnswerBtnRed}"   Tag="0" Click="Answer_Click">
-                            <TextBlock FontFamily="{StaticResource KidsFont}" TextWrapping="Wrap" TextAlignment="Center" FontSize="14"/>
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                                <Image x:Name="ImgA" Width="100" Height="80" Stretch="Uniform" Margin="0,0,8,0"/>
+                                <TextBlock FontFamily="{StaticResource KidsFont}" TextWrapping="Wrap" TextAlignment="Center" FontSize="14" VerticalAlignment="Center"/>
+                            </StackPanel>
                         </Button>
                         <Button x:Name="BtnB" Style="{StaticResource AnswerBtnBlue}"  Tag="1" Click="Answer_Click">
-                            <TextBlock FontFamily="{StaticResource KidsFont}" TextWrapping="Wrap" TextAlignment="Center" FontSize="14"/>
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                                <Image x:Name="ImgB" Width="100" Height="80" Stretch="Uniform" Margin="0,0,8,0"/>
+                                <TextBlock FontFamily="{StaticResource KidsFont}" TextWrapping="Wrap" TextAlignment="Center" FontSize="14" VerticalAlignment="Center"/>
+                            </StackPanel>
                         </Button>
                         <Button x:Name="BtnC" Style="{StaticResource AnswerBtnGreen}" Tag="2" Click="Answer_Click">
-                            <TextBlock FontFamily="{StaticResource KidsFont}" TextWrapping="Wrap" TextAlignment="Center" FontSize="14"/>
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                                <Image x:Name="ImgC" Width="100" Height="80" Stretch="Uniform" Margin="0,0,8,0"/>
+                                <TextBlock FontFamily="{StaticResource KidsFont}" TextWrapping="Wrap" TextAlignment="Center" FontSize="14" VerticalAlignment="Center"/>
+                            </StackPanel>
                         </Button>
                         <Button x:Name="BtnD" Style="{StaticResource AnswerBtnAmber}" Tag="3" Click="Answer_Click">
-                            <TextBlock FontFamily="{StaticResource KidsFont}" TextWrapping="Wrap" TextAlignment="Center" FontSize="14"/>
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                                <Image x:Name="ImgD" Width="100" Height="80" Stretch="Uniform" Margin="0,0,8,0"/>
+                                <TextBlock FontFamily="{StaticResource KidsFont}" TextWrapping="Wrap" TextAlignment="Center" FontSize="14" VerticalAlignment="Center"/>
+                            </StackPanel>
                         </Button>
                     </UniformGrid>
                 </Grid>
@@ -313,7 +328,7 @@
                            FontFamily="{StaticResource KidsFont}"
                            FontSize="16" Foreground="#777"
                            HorizontalAlignment="Center" Margin="0,0,0,24"/>
-                <Button Content="🔄  Choisir la difficulté"
+                <Button Content="🔄  Retour menu"
                         Style="{StaticResource PillBtnRed}"
                         HorizontalAlignment="Center" Click="Replay_Click"/>
             </StackPanel>
@@ -340,7 +355,7 @@
                            FontFamily="{StaticResource KidsFont}"
                            FontSize="16" Foreground="#777"
                            HorizontalAlignment="Center" Margin="0,0,0,24"/>
-                <Button Content="🔄  Choisir la difficulté"
+                <Button Content="🔄  Retourner au menu principal"
                         Style="{StaticResource PillBtnGold}"
                         HorizontalAlignment="Center" Click="Replay_Click"/>
             </StackPanel>

@@ -74,8 +74,11 @@ namespace FarmAnimalsGameV2
                 return;
             }
 
-            PageHost.Content = new MysteryAnimalPage();
-            RootGrid.Background = System.Windows.Media.Brushes.Transparent;
+            var mysteryPage = new MysteryAnimalPage();
+            mysteryPage.CurrentDifficulty = (MysteryAnimalPage.Difficulty)(int)e.Difficulty;
+            mysteryPage.RoundCompleted += () => ShowMainMenu();
+            PageHost.Content = mysteryPage;
+            mysteryPage.StartGame(); // ← indispensable pour que _waitingForRfid passe à true
         }
 
         /// <summary>

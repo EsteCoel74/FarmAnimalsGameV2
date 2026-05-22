@@ -8,7 +8,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-
+using System.IO.Ports;
+using System.Linq.Expressions;
+using System.Runtime.InteropServices;
 namespace FarmAnimalsGameV2.Views
 {
     public class AnimalCard
@@ -17,6 +19,7 @@ namespace FarmAnimalsGameV2.Views
         public string Name { get; set; }
         public string Emoji { get; set; }
         public string Hint { get; set; }
+        public string ImageFile { get; set; }
     }
 
     public partial class MysteryAnimalPage : UserControl
@@ -50,6 +53,7 @@ namespace FarmAnimalsGameV2.Views
         private AnimalCard _currentAnimal;
         private int _correctIndex;
         private bool _waitingForRfid;
+        private MediaPlayer _mediaPlayer = new MediaPlayer();
 
         private readonly DispatcherTimer _countdownTimer = new DispatcherTimer
         {
@@ -58,16 +62,16 @@ namespace FarmAnimalsGameV2.Views
 
         private readonly List<AnimalCard> _catalog = new List<AnimalCard>
         {
-            new AnimalCard { RfidTag="6FDB2B3E", Name="Vache",    Emoji="🐄", Hint="Donne du lait chaque matin"        },
-            new AnimalCard { RfidTag="32FE281D", Name="Cochon",   Emoji="🐷", Hint="Se roule dans la boue"             },
-            new AnimalCard { RfidTag="42EA691D", Name="Poulet",   Emoji="🐔", Hint="Pond des œufs tous les jours"      },
-            new AnimalCard { RfidTag="6EAD4A74", Name="Mouton",   Emoji="🐑", Hint="Sa laine tient chaud l'hiver"      },
-            new AnimalCard { RfidTag="EE455374", Name="Cheval",   Emoji="🐴", Hint="Court très vite dans les prés"     },
-            new AnimalCard { RfidTag="3E5D4A74", Name="Âne",      Emoji="🫏", Hint="Porte les lourdes charges"         },
-            new AnimalCard { RfidTag="04444A7AFB1990", Name="Canard",   Emoji="🦆", Hint="Cancane près de la mare"           },
-            new AnimalCard { RfidTag="0432486AD11990", Name="Chèvre",   Emoji="🐐", Hint="Grimpe partout sans effort"        },
-            new AnimalCard { RfidTag="041213A28E1190", Name="Lapin",    Emoji="🐰", Hint="Saute et mange des carottes"       },
-            new AnimalCard { RfidTag="042D33D2FC1090", Name="Oie",      Emoji="🪿", Hint="Garde la ferme mieux qu'un chien" },
+        new AnimalCard { RfidTag="6FDB2B3E", Name="Vache",  Emoji="🐄", Hint="Donne du lait chaque matin",        ImageFile="vache.jpg"  },
+        new AnimalCard { RfidTag="32FE281D", Name="Cochon",  Emoji="🐷", Hint="Se roule dans la boue",             ImageFile="cochon.jpg" },
+        new AnimalCard { RfidTag="42EA691D", Name="Poulet",  Emoji="🐔", Hint="Pond des œufs tous les jours",      ImageFile="poule.jpg"  },
+        new AnimalCard { RfidTag="6EAD4A74", Name="Mouton",  Emoji="🐑", Hint="Sa laine tient chaud l'hiver",      ImageFile="mouton.jpg" },
+        new AnimalCard { RfidTag="EE455374", Name="Cheval",  Emoji="🐴", Hint="Court très vite dans les prés",     ImageFile="cheval.jpg" },
+        new AnimalCard { RfidTag="3E5D4A74", Name="Âne",     Emoji="🫏", Hint="Porte les lourdes charges",         ImageFile="ane.jpg"    },
+        new AnimalCard { RfidTag="04444A7AFB1990", Name="Canard", Emoji="🦆", Hint="Cancane près de la mare",      ImageFile="coq.jpg"    },
+        new AnimalCard { RfidTag="0432486AD11990", Name="Chèvre", Emoji="🐐", Hint="Grimpe partout sans effort",   ImageFile="chèvre.jpg" },
+        new AnimalCard { RfidTag="041213A28E1190", Name="Lapin",  Emoji="🐰", Hint="Saute et mange des carottes",  ImageFile="lapin.jpg"  },
+        new AnimalCard { RfidTag="042D33D2FC1090", Name="Oie",    Emoji="🪿", Hint="Garde la ferme mieux qu'un chien", ImageFile="oie.jpg"},
         };
 
         // ══════════════════════════════════════════════════════
@@ -78,13 +82,122 @@ namespace FarmAnimalsGameV2.Views
         {
             InitializeComponent();
             _countdownTimer.Tick += CountdownTimer_Tick;
+            _mediaPlayer.MediaEnded += (s, e) =>
+            {
+                _mediaPlayer.Position = TimeSpan.Zero;
+                _mediaPlayer.Play();
+            };
             // ResetGame() est appelé via StartGame() après avoir défini CurrentDifficulty
         }
 
         /// <summary>À appeler depuis MainWindow APRÈS avoir défini CurrentDifficulty.</summary>
+        /// 
+        private SerialPort _rfidPort;
         public void StartGame()
         {
             ResetGame();
+            StartRfidListener();
+
+            System.Diagnostics.Debug.WriteLine($"[DIFFICULTÉ] {CurrentDifficulty}"); // ← ici
+            string musique = CurrentDifficulty == Difficulty.Facile ? "SpongeBobSquarePants.mp3" :
+                             CurrentDifficulty == Difficulty.Moyen ? "CoC.mp3" :
+                             CurrentDifficulty == Difficulty.Difficile ? "SpongeBobSquarePants.mp3" : "";
+            string path = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "Audio", musique);
+            _mediaPlayer.Open(new Uri(path));
+            _mediaPlayer.Volume = 0.5;
+            _mediaPlayer.Play();
+
+        }
+        // ── Imports DLL ──────────────────────────────────────────
+        [DllImport("MasterRD.dll")] static extern int rf_init_com(int port, int baud);
+        [DllImport("MasterRD.dll")] static extern int rf_ClosePort();
+        [DllImport("MasterRD.dll")] static extern int rf_antenna_sta(short icdev, byte mode);
+        [DllImport("MasterRD.dll")] static extern int rf_init_type(short icdev, byte type);
+        [DllImport("MasterRD.dll")] static extern int rf_request(short icdev, byte mode, ref ushort pTagType);
+        [DllImport("MasterRD.dll")] static extern int rf_anticoll(short icdev, byte bcnt, IntPtr pSnr, ref byte pRLength);
+
+        private Thread _rfidThread;
+        private bool _rfidRunning;
+
+        private void StartRfidListener()
+        {
+            _rfidRunning = true;
+            _rfidThread = new Thread(() =>
+            {
+                while (_rfidRunning)
+                {
+                    if (_waitingForRfid)
+                    {
+                        string tag = LireCarteRfid(6, 19200); // COM6, 19200 baud
+                        if (tag != null)
+                            Dispatcher.Invoke(() => OnRfidTagRead(tag));
+                    }
+                    Thread.Sleep(300);
+                }
+
+            });
+            _rfidThread.IsBackground = true;
+            _rfidThread.Start();
+        }
+
+        private string LireCarteRfid(int port, int baud)
+        {
+            short icdev = 0x0000;
+            byte type = (byte)'A';
+            byte mode = 0x52;
+            ushort tagType = 0;
+            byte bcnt = 0x04;
+            byte len = 255;
+            int essais = 0;
+
+            if (rf_init_com(port, baud) != 0) return null;
+
+            IntPtr pSnr = Marshal.AllocHGlobal(1024);
+            string cardId = null;
+
+            try
+            {
+                do
+                {
+                    rf_antenna_sta(icdev, 0); Thread.Sleep(20);
+                    rf_init_type(icdev, type); Thread.Sleep(20);
+                    rf_antenna_sta(icdev, 1); Thread.Sleep(50);
+
+                    if (rf_request(icdev, mode, ref tagType) == 0)
+                    {
+                        if (rf_anticoll(icdev, bcnt, pSnr, ref len) == 0)
+                        {
+                            cardId = "";
+                            for (int i = 0; i < len; i++)
+                                cardId += Marshal.ReadByte(pSnr, i).ToString("X2");
+                            essais = 2;
+                        }
+                        else essais++;
+                    }
+                    else essais++;
+
+                } while (essais < 2);
+            }
+            finally
+            {
+                Marshal.FreeHGlobal(pSnr);
+                rf_ClosePort();
+            }
+
+            return cardId;
+        }
+
+
+
+        protected override void OnVisualParentChanged(DependencyObject oldParent)
+        {
+            base.OnVisualParentChanged(oldParent);
+            if (VisualParent == null)
+            {
+                _countdownTimer.Stop();
+                _rfidRunning = false;
+                _mediaPlayer.Stop();
+            }
         }
 
         // ══════════════════════════════════════════════════════
@@ -142,7 +255,7 @@ namespace FarmAnimalsGameV2.Views
         {
             _waitingForRfid = false;
             _currentAnimal = animal;
-            AnimalEmoji.Text = animal.Emoji;
+            //AnimalImage.Source = new BitmapImage(new Uri($"pack://application:,,,/Assets/AnimalMystere/{animal.ImageFile}"));
             AnimalHint.Text = $"Indice : {animal.Hint}";
             RfidBadge.Text = $"🏷 RFID : {animal.RfidTag}";
             BuildAnswerButtons(animal);
@@ -158,22 +271,25 @@ namespace FarmAnimalsGameV2.Views
 
         private void BuildAnswerButtons(AnimalCard correct)
         {
+            var images = new Image[] { ImgA, ImgB, ImgC, ImgD };
             var rng = new Random();
             var choices = _catalog
                 .Where(a => a.Name != correct.Name)
                 .OrderBy(_ => rng.Next())
                 .Take(3)
-                .Select(a => $"{a.Emoji}  {a.Name}")
                 .ToList();
 
             _correctIndex = rng.Next(4);
-            choices.Insert(_correctIndex, $"{correct.Emoji}  {correct.Name}");
+            choices.Insert(_correctIndex, correct);
 
             var btns = AnswerButtons();
             for (int i = 0; i < 4; i++)
             {
-                var tb = (TextBlock)btns[i].Content;
-                tb.Text = choices[i];
+                var sp = (StackPanel)btns[i].Content;
+                var tb = sp.Children.OfType<TextBlock>().First();
+                var img = (Image)sp.Children[0];
+                tb.Text = choices[i].Name;
+                img.Source = new BitmapImage(new Uri($"pack://application:,,,/Assets/AnimalMystere/{choices[i].ImageFile}"));
                 SetButtonColor(btns[i], "#16213E", "#2A3F6F");
                 btns[i].IsEnabled = true;
             }
@@ -398,19 +514,6 @@ namespace FarmAnimalsGameV2.Views
             t.Tick += (s, e) => { t.Stop(); action(); };
             t.Start();
         }
-        Dictionary<string, string> cartes = new Dictionary<string, string>
-{
-    { "6FDB2B3E", "Vache" },
-    { "32FE281D", "Mouton" },
-    { "42EA691D", "Chèvre" },
-    // à compléter quand tu auras scanné les 7 autres cartes
-    // { "????????", "Cochon" },
-    // { "????????", "Cheval" },
-    // { "????????", "Âne" },
-    // { "????????", "Lapin" },
-    // { "????????", "Oie" },
-    // { "????????", "Poule" },
-    // { "????????", "Coq" },
-};
+
     }
 }
