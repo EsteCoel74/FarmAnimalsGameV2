@@ -335,11 +335,13 @@ namespace FarmAnimalsGameV2.Views
             _isCompleted = true;
             if (isWinner)
             {
+                PlayVictoryMusic();
                 StartFireworks();
                 StopLoseStars();
             }
             else
             {
+                PlayLoseMusic();
                 StopFireworks();
                 StartLoseStars();
             }
@@ -350,6 +352,46 @@ namespace FarmAnimalsGameV2.Views
             TimeText.Text = $"Temps : {elapsed.ToString(@"mm\:ss")}";
             SummaryPanel.Visibility = Visibility.Visible;
             CardsBoard.IsEnabled = false;
+        }
+
+        private void PlayVictoryMusic()
+        {
+            var victoryPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "Memory", "VictoireMemory.mp3");
+            var victoryUri = new Uri(victoryPath, UriKind.Absolute);
+
+            if (_backgroundMusic is not null)
+            {
+                _backgroundMusic.Stop();
+            }
+
+            if (_backgroundPlayer is not null)
+            {
+                _backgroundPlayer.MediaEnded -= BackgroundPlayer_MediaEnded;
+                _backgroundPlayer.Open(victoryUri);
+                _backgroundPlayer.Position = TimeSpan.Zero;
+                _backgroundPlayer.Volume = 0.55;
+                _backgroundPlayer.Play();
+            }
+        }
+
+        private void PlayLoseMusic()
+        {
+            var losePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "Memory", "LooseMemory.mp3");
+            var loseUri = new Uri(losePath, UriKind.Absolute);
+
+            if (_backgroundMusic is not null)
+            {
+                _backgroundMusic.Stop();
+            }
+
+            if (_backgroundPlayer is not null)
+            {
+                _backgroundPlayer.MediaEnded -= BackgroundPlayer_MediaEnded;
+                _backgroundPlayer.Open(loseUri);
+                _backgroundPlayer.Position = TimeSpan.Zero;
+                _backgroundPlayer.Volume = 0.55;
+                _backgroundPlayer.Play();
+            }
         }
 
         /// <summary>
@@ -429,13 +471,7 @@ namespace FarmAnimalsGameV2.Views
         /// </summary>
         private static TimeSpan GetMistakePenalty(GameDifficulty difficulty)
         {
-            return difficulty switch
-            {
-                GameDifficulty.Easy => TimeSpan.FromSeconds(7),
-                GameDifficulty.Medium => TimeSpan.FromSeconds(4),
-                GameDifficulty.Hard => TimeSpan.FromSeconds(2),
-                _ => TimeSpan.FromSeconds(2)
-            };
+            return TimeSpan.Zero;
         }
 
         /// <summary>
